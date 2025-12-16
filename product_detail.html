@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Pagina</title>
+
+    <link rel="stylesheet" href="product_detail.css" />
+  </head>
+  <body>
+    <div class="header">
+      <button class="back-btn" onclick="history.back()">Terug</button>
+    </div>
+
+    <div class="product-container">
+      <!-- PRODUCT HEADER -->
+      <div class="product-image-section">
+        <img
+          id="productImage"
+          src="https://via.placeholder.com/250?text=Product"
+          alt="Product"
+          class="product-image"
+        />
+
+        <div class="product-name" id="productName">Laden...</div>
+        <div class="product-price" id="productPrice">-</div>
+      </div>
+
+      <!-- SCORES VISUAL -->
+      <div class="score-visual">
+        <div class="score-circle mas">
+          <div class="score-main" id="masLabel">-</div>
+          <div class="score-sub">Marketing klopt?</div>
+        </div>
+
+        <div class="score-circle pqi">
+          <div class="score-main" id="pqiLabel">-</div>
+          <div class="score-sub">Eiwitkwaliteit</div>
+        </div>
+
+        <div class="score-circle ppg">
+          <div class="score-main" id="ppgValue">-</div>
+          <div class="score-sub" id="ppgLabel">-</div>
+        </div>
+      </div>
+
+      <!-- NUTRITION -->
+      <div class="nutrition-section">
+        <button class="dropdown-toggle" onclick="toggleDropdown(0)">
+          <span>Voedingswaardes</span>
+          <span class="dropdown-icon">▼</span>
+        </button>
+
+        <div class="dropdown-content" id="nutrition-dropdown-0">
+          <div class="nutrition-row">
+            <div class="nutrition-label">Calorieën (per 100g)</div>
+            <div class="nutrition-value" id="kcal">-</div>
+          </div>
+          <div class="nutrition-row">
+            <div class="nutrition-label">Eiwit (per 100g)</div>
+            <div class="nutrition-value" id="protein">-</div>
+          </div>
+          <div class="nutrition-row">
+            <div class="nutrition-label">Koolhydraten</div>
+            <div class="nutrition-value" id="carbs">-</div>
+          </div>
+          <div class="nutrition-row">
+            <div class="nutrition-label">Vetten</div>
+            <div class="nutrition-value" id="fat">-</div>
+          </div>
+          <div class="nutrition-row">
+            <div class="nutrition-label">Suikers</div>
+            <div class="nutrition-value" id="sugar">-</div>
+          </div>
+          <div class="nutrition-row">
+            <div class="nutrition-label">Zout</div>
+            <div class="nutrition-value" id="salt">-</div>
+          </div>
+          <div class="nutrition-row">
+            <div class="nutrition-label">Gewicht verpakking</div>
+            <div class="nutrition-value" id="weight">-</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFO -->
+      <div class="nutrition-section">
+        <button class="dropdown-toggle" onclick="toggleDropdown(1)">
+          <span>Informatie</span>
+          <span class="dropdown-icon">▼</span>
+        </button>
+
+        <div class="dropdown-content" id="nutrition-dropdown-1">
+          <div class="nutrition-row">
+            <div class="nutrition-label">Totaal eiwit</div>
+            <div class="nutrition-value" id="totalProtein">-</div>
+          </div>
+          <div class="nutrition-row">
+            <div class="nutrition-label">Winkel</div>
+            <div class="nutrition-value" id="store">-</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STORE BUTTON -->
+      <button class="visit-store-btn" id="visitButton">
+        Bekijk op website →
+      </button>
+
+      <!-- INFO TEXT -->
+      <div class="info-text">
+        <strong>Score Uitleg:</strong><br />
+        <strong>PPG:</strong> Lager = beter<br />
+        <strong>PQI:</strong> Hoger = beter<br />
+        <strong>MAS:</strong> JA = marketing klopt
+      </div>
+    </div>
+
+    <script src="product.js"></script>
+  </body>
+</html>
