@@ -1,0 +1,262 @@
+// Global data storage
+let proteinProducts = [];
+let normalProducts = [];
+
+// Load CSV data
+async function loadCSVData() {
+    try {
+        console.log('Starting to load CSV files...');
+        
+        // Load protein products from both AH and Jumbo
+        console.log('Fetching ah_proteine_producten.csv...');
+        const ahProteinResponse = await fetch('ah_proteine_producten.csv');
+        if (!ahProteinResponse.ok) throw new Error(`Failed to load ah_proteine_producten.csv: ${ahProteinResponse.status}`);
+        
+        console.log('Fetching jumbo_protein_producten.csv...');
+        const jumboProteinResponse = await fetch('jumbo_protein_producten.csv');
+        if (!jumboProteinResponse.ok) throw new Error(`Failed to load jumbo_protein_producten.csv: ${jumboProteinResponse.status}`);
+        
+        console.log('Fetching jumbo_high_protein_producten.csv...');
+        const jumboHighProteinResponse = await fetch('jumbo_high_protein_producten.csv');
+        if (!jumboHighProteinResponse.ok) throw new Error(`Failed to load jumbo_high_protein_producten.csv: ${jumboHighProteinResponse.status}`);
+        
+        const ahProteinText = await ahProteinResponse.text();
+        const jumboProteinText = await jumboProteinResponse.text();
+        const jumboHighProteinText = await jumboHighProteinResponse.text();
+        console.log('Protein files loaded successfully');
+        
+        // Load normal products
+        console.log('Fetching ah_normale_producten.csv...');
+        const ahNormalResponse = await fetch('ah_normale_producten.csv');
+        if (!ahNormalResponse.ok) throw new Error(`Failed to load ah_normale_producten.csv: ${ahNormalResponse.status}`);
+        
+        console.log('Fetching jumbo_normale_producten.csv...');
+        
+        // Parse CSV data
+        console.log('Parsing CSV data...');
+        proteinProducts = [
+            ...parseCSV(ahProteinText),
+            ...parseCSV(jumboProteinText),
+            ...parseCSV(jumboHighProteinText)
+        ];
+        console.log(`Loaded ${proteinProducts.length} protein products`);
+        
+        normalProducts = [
+            ...parseCSV(ahNormalText),
+            ...parseCSV(jumboNormalText)
+        ];
+        console.log(`Loaded ${normalProducts.length} normal products`);
+        
+        // Populate dropdowns
+        populateDropdown('protein-select', proteinProducts);
+        populateDropdown('normal-select', normalProducts);
+        
+        console.log('All products loaded successfully!');
+        
+    } catch (error) {
+        console.error('Error loading CSV data:', error);
+        console.error('Error details:', error.message, error.stack);
+        alert('Fout bij het laden van productdata: ' + error.message);
+    }
+}       populateDropdown('normal-select', normalProducts);
+        
+    } catch (error) {
+        console.error('Error loading CSV data:', error);
+        alert('Fout bij het laden van productdata');
+    }
+}
+
+// Parse CSV text to array of objects
+function parseCSV(text) {
+    const lines = text.trim().split('\n');
+    const headers = lines[0].split(',');
+    const products = [];
+    
+    for (let i = 1; i < lines.length; i++) {
+        const values = parseCSVLine(lines[i]);
+        if (values.length >= headers.length) {
+            const product = {};
+            headers.forEach((header, index) => {
+                product[header.trim()] = values[index] ? values[index].trim() : '';
+            });
+            products.push(product);
+        }
+    }
+    
+    return products;
+}
+
+// Parse CSV line handling quoted values
+function parseCSVLine(line) {
+    const values = [];
+    let current = '';
+    let inQuotes = false;
+    
+    for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        
+        if (char === '"') {
+            inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+            values.push(current);
+            current = '';
+        } else {
+            current += char;
+        }
+    }
+    values.push(current);
+    
+    return values;
+}
+
+// Populate dropdown with products
+function populateDropdown(selectId, products) {
+    const select = document.getElementById(selectId);
+    
+    products.forEach((product, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = product.Naam;
+        select.appendChild(option);
+    });
+}
+
+// Compare products
+function compareProducts() {
+    const proteinIndex = document.getElementById('protein-select').value;
+    const normalIndex = document.getElementById('normal-select').value;
+    
+    if (proteinIndex === '' || normalIndex === '') {
+        document.getElementById('comparison-container').classList.add('hidden');
+        document.getElementById('links-section').classList.add('hidden');
+        return;
+    }
+    
+    const proteinProduct = proteinProducts[proteinIndex];
+    const normalProduct = normalProducts[normalIndex];
+    
+    console.log('Comparing:', proteinProduct.Naam, 'vs', normalProduct.Naam);
+    
+    // Show comparison container and links
+    document.getElementById('comparison-container').classList.remove('hidden');
+    document.getElementById('links-section').classList.remove('hidden');
+    
+    // Populate protein product info
+    document.getElementById('protein-name').textContent = truncateName(proteinProduct.Naam);
+    document.getElementById('protein-price').textContent = proteinProduct.Prijs;
+    document.getElementById('protein-offer').classList.toggle('hidden', proteinProduct.Aanbieding !== 'JA');
+    document.getElementById('protein-eiwit').textContent = proteinProduct['Eiwit per 100g'] || '-';
+    document.getElementById('protein-koolhydraten').textContent = proteinProduct['Koolhydraten per 100g'] || '-';
+    document.getElementById('protein-vetten').textContent = proteinProduct['Vetten per 100g'] || '-';
+    document.getElementById('protein-calories').textContent = formatCalories(proteinProduct['Calorieën']);
+    document.getElementById('protein-link').href = proteinProduct.Link;
+    
+    // Populate normal product info
+    document.getElementById('normal-name').textContent = truncateName(normalProduct.Naam);
+    document.getElementById('normal-price').textContent = normalProduct.Prijs;
+    document.getElementById('normal-offer').classList.toggle('hidden', normalProduct.Aanbieding !== 'JA');
+    document.getElementById('normal-eiwit').textContent = normalProduct['Eiwit per 100g'] || '-';
+    document.getElementById('normal-koolhydraten').textContent = normalProduct['Koolhydraten per 100g'] || '-';
+    document.getElementById('normal-vetten').textContent = normalProduct['Vetten per 100g'] || '-';
+    document.getElementById('normal-calories').textContent = formatCalories(normalProduct['Calorieën']);
+    document.getElementById('normal-link').href = normalProduct.Link;
+    
+    // Highlight winners
+    highlightWinners(proteinProduct, normalProduct);
+    
+    // Scroll to comparison
+    setTimeout(() => {
+        document.getElementById('comparison-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
+}
+
+// Truncate long product names
+function truncateName(name) {
+    return name.length > 40 ? name.substring(0, 40) + '...' : name;
+}
+
+// Format calories to show just kcal value
+function formatCalories(calString) {
+    if (!calString) return '-';
+    const match = calString.match(/\((\d+)\s*kcal\)/);
+    return match ? match[1] + ' kcal' : calString;
+}
+
+// Highlight winning values
+function highlightWinners(proteinProduct, normalProduct) {
+    // Hide all badges first
+    document.querySelectorAll('[id$="-badge"]').forEach(el => el.classList.add('hidden'));
+    
+    // Compare protein (higher is better)
+    const proteinEiwit = parseFloat(proteinProduct['Eiwit per 100g']);
+    const normalEiwit = parseFloat(normalProduct['Eiwit per 100g']);
+    
+    if (!isNaN(proteinEiwit) && !isNaN(normalEiwit)) {
+        if (proteinEiwit > normalEiwit) {
+            document.getElementById('protein-eiwit-badge').classList.remove('hidden');
+            highlightElement('protein-eiwit');
+        } else if (normalEiwit > proteinEiwit) {
+            document.getElementById('normal-eiwit-badge').classList.remove('hidden');
+            highlightElement('normal-eiwit');
+        }
+    }
+    
+    // Compare calories (lower is better)
+    const proteinCal = parseCalories(proteinProduct['Calorieën']);
+    const normalCal = parseCalories(normalProduct['Calorieën']);
+    
+    if (!isNaN(proteinCal) && !isNaN(normalCal)) {
+        if (proteinCal < normalCal) {
+            document.getElementById('protein-cal-badge').classList.remove('hidden');
+            highlightElement('protein-calories');
+        } else if (normalCal < proteinCal) {
+            document.getElementById('normal-cal-badge').classList.remove('hidden');
+            highlightElement('normal-calories');
+        }
+    }
+}
+
+// Highlight element with primary color
+function highlightElement(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.classList.add('rounded', 'bg-primary', 'px-2', 'py-0.5', 'text-white', 'font-extrabold');
+    }
+}
+
+// Parse price string to number
+function parsePrice(priceString) {
+    if (!priceString) return NaN;
+    return parseFloat(priceString.replace('€', '').replace(',', '.').trim());
+}
+
+// Parse calories string to number
+function parseCalories(calString) {
+    if (!calString) return NaN;
+    const match = calString.match(/\((\d+)\s*kcal\)/);
+    return match ? parseFloat(match[1]) : NaN;
+}
+
+// Clear comparison
+function clearComparison() {
+    document.getElementById('protein-select').value = '';
+    document.getElementById('normal-select').value = '';
+    document.getElementById('comparison-container').classList.add('hidden');
+    document.getElementById('links-section').classList.add('hidden');
+    
+    // Remove all highlights
+    document.querySelectorAll('[id$="-eiwit"], [id$="-calories"]').forEach(el => {
+        el.classList.remove('rounded', 'bg-primary', 'px-2', 'py-0.5', 'text-white', 'font-extrabold');
+    });
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, starting to load CSV data...');
+    loadCSVData();
+    
+    document.getElementById('protein-select').addEventListener('change', compareProducts);
+    document.getElementById('normal-select').addEventListener('change', compareProducts);
+});

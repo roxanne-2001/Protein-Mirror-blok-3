@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Test</title>
+</head>
+<body>
+    <h1>CSV Test</h1>
+    <button onclick="testCSV()">Test CSV Laden</button>
+    <pre id="output"></pre>
+
+    <script>
+        async function testCSV() {
+            const output = document.getElementById('output');
+            output.textContent = 'Bezig met laden...\n';
+            
+            try {
+                const response = await fetch('ah_proteine_producten.csv');
+                output.textContent += `Status: ${response.status}\n`;
+                
+                if (response.ok) {
+                    const text = await response.text();
+                    const lines = text.split('\n');
+                    output.textContent += `Aantal regels: ${lines.length}\n`;
+                    output.textContent += `Eerste 3 regels:\n${lines.slice(0, 3).join('\n')}`;
+                } else {
+                    output.textContent += 'Fout bij laden!';
+                }
+            } catch (error) {
+                output.textContent += `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
