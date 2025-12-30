@@ -1,5 +1,6 @@
 console.log('=== APP.JS LOADED ===');
 
+let allProducts = [];
 let proteinProducts = [];
 let normalProducts = [];
 
@@ -32,7 +33,7 @@ function parseSimpleCSV(text) {
         values.push(current.trim()); // Last field
         
         if (values.length >= 7) {
-            products.push({
+            const product = {
                 'Naam': values[0],
                 'Prijs': values[1],
                 'Aanbieding': values[2] || '-',
@@ -42,22 +43,43 @@ function parseSimpleCSV(text) {
                 'Calorieën': values[6],
                 'Link': values[7] || '',
                 'Afbeelding': values[8] || ''
-            });
+            };
+            
+            // Only add if product has a valid name
+            if (product.Naam && product.Naam.trim()) {
+                products.push(product);
+            }
         }
     }
     return products;
 }
 
+function getProteinValue(proteinString) {
+    // Extract numeric value from "10.0 g" or "10 g"
+    const match = proteinString.match(/[\d.]+/);
+    return match ? parseFloat(match[0]) : 0;
+}
+
 async function loadCSVData() {
     console.log('Loading CSV...');
     try {
-        const response1 = await fetch('ah_proteine_producten.csv');
-        const response2 = await fetch('ah_normale_producten.csv');
+        const response = await fetch('alle_producten_samengevoegd.csv');
         
-        proteinProducts = parseSimpleCSV(await response1.text());
-        normalProducts = parseSimpleCSV(await response2.text());
+        if (!response.ok) {
+            throw new Error('CSV bestand niet gevonden');
+        }
         
-        console.log('Loaded:', proteinProducts.length, normalProducts.length);
+        allProducts = parseSimpleCSV(await response.text());
+        
+        // Filter products based on protein content
+        // Protein products: >= 8g protein per 100g
+        // Normal products: < 8g protein per 100g
+        proteinProducts = allProducts.filter(p => getProteinValue(p['Eiwit per 100g']) >= 8);
+        normalProducts = allProducts.filter(p => getProteinValue(p['Eiwit per 100g']) < 8);
+        
+        console.log('Loaded:', allProducts.length, 'total products');
+        console.log('Protein products (>=8g):', proteinProducts.length);
+        console.log('Normal products (<8g):', normalProducts.length);
         
         const sel1 = document.getElementById('protein-select');
         const sel2 = document.getElementById('normal-select');
@@ -76,9 +98,9 @@ async function loadCSVData() {
             sel2.appendChild(opt);
         });
         
-        alert('Geladen: ' + proteinProducts.length + ' / ' + normalProducts.length);
+        console.log('Producten geladen en gefilterd!');
     } catch (e) {
-        alert('ERROR: ' + e.message);
+        alert('ERROR bij laden CSV: ' + e.message);
         console.error(e);
     }
 }

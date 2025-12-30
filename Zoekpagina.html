@@ -152,8 +152,8 @@
       // Load CSV
       async function loadProducts() {
         try {
-          const response = await fetch("results_all.csv");
-          if (!response.ok) throw new Error("CSV not found");
+          const response = await fetch("alle_producten_samengevoegd.csv");
+          if (!response.ok) throw new Error("CSV bestand niet gevonden");
           const text = await response.text();
           allProducts = parseCSV(text).filter((p) => p.Naam && p.Naam.trim());
           renderProducts(allProducts);
@@ -161,7 +161,7 @@
         } catch (e) {
           console.error("Error loading CSV:", e);
           document.getElementById("productList").innerHTML =
-            '<div class="no-results">Fout bij laden van producten</div>';
+            '<div class="text-center py-8 text-red-600 dark:text-red-400">Fout bij laden van producten: ' + e.message + '</div>';
         }
       }
 
@@ -177,14 +177,12 @@
 
         list.innerHTML = products
           .map((p) => {
-            const price = p.Prijs || "€" + p.parsed_price_eur;
             const name = p.Naam || "Onbekend product";
             return `
-                        <div class="flex items-center justify-between p-4 rounded-xl bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-800 hover:shadow-md transition-all cursor-pointer" onclick="selectProduct('${encodeURIComponent(
+                        <div class="flex items-center justify-between p-4 rounded-xl bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary transition-all cursor-pointer" onclick="selectProduct('${encodeURIComponent(
                           name
                         )}')">
                             <div class="flex-1 font-medium text-slate-900 dark:text-white">${name}</div>
-                            <div class="text-primary font-bold mr-2">${price}</div>
                             <span class="material-symbols-outlined text-slate-400">arrow_forward</span>
                         </div>
                     `;

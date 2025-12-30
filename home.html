@@ -68,8 +68,8 @@
                         </div>
                     </div>
                     <div class="p-4 flex flex-col gap-1">
-                        <h3 class="text-slate-900 dark:text-white text-base font-bold">Did you know?</h3>
-                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Almonds pack more protein per serving than walnuts.</p>
+                        <h3 class="text-slate-900 dark:text-white text-base font-bold">Wist je dat?</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Amandelen bevatten meer eiwit per portie dan walnoten.</p>
                     </div>
                 </div>
 
@@ -82,12 +82,15 @@
                             <span class="text-xs font-bold">Quiz</span>
                         </div>
                     </div>
-                    <div class="p-4 flex flex-col gap-2">
-                        <h3 class="text-slate-900 dark:text-white text-base font-bold">Which has more protein?</h3>
-                        <div class="flex gap-2 mt-1">
-                            <button class="flex-1 py-1.5 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-semibold hover:bg-primary hover:text-white transition-colors">Tofu</button>
-                            <button class="flex-1 py-1.5 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-semibold hover:bg-primary hover:text-white transition-colors">Chicken</button>
+                    <div class="p-4 flex flex-col gap-2" id="quiz-container">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="text-slate-900 dark:text-white text-base font-bold" id="quiz-question">Wat heeft meer eiwit?</h3>
+                            <span class="text-xs font-bold text-primary" id="quiz-progress">1/6</span>
                         </div>
+                        <div class="flex gap-2 mt-1" id="quiz-buttons-container">
+                            <!-- Buttons will be inserted here dynamically -->
+                        </div>
+                        <div id="quiz-feedback" class="hidden mt-2 text-xs font-medium"></div>
                     </div>
                 </div>
             </div>

@@ -147,8 +147,183 @@ function displayProducts(products) {
     });
 }
 
+// Quiz functionality
+const quizQuestions = [
+    {
+        question: "Wat heeft meer eiwit per 100g?",
+        options: [
+            { text: "Kip", protein: "31g", correct: true },
+            { text: "Tofu", protein: "8g", correct: false }
+        ],
+        explanation: "Kip bevat ongeveer 31g eiwit per 100g, terwijl tofu ongeveer 8g eiwit per 100g heeft."
+    },
+    {
+        question: "Welk zuivelproduct heeft meer eiwit per 100g?",
+        options: [
+            { text: "Griekse yoghurt", protein: "10g", correct: true },
+            { text: "Gewone yoghurt", protein: "4g", correct: false }
+        ],
+        explanation: "Griekse yoghurt bevat ongeveer 10g eiwit per 100g, terwijl gewone yoghurt ongeveer 4g heeft."
+    },
+    {
+        question: "Welke peulvrucht heeft meer eiwit per 100g gekookt?",
+        options: [
+            { text: "Kikkererwten", protein: "9g", correct: false },
+            { text: "Linzen", protein: "9g", correct: true }
+        ],
+        explanation: "Beide hebben ongeveer 9g eiwit per 100g gekookt, maar linzen hebben iets meer (9g vs 8.9g)."
+    },
+    {
+        question: "Wat heeft meer eiwit per 100g?",
+        options: [
+            { text: "Zalm", protein: "25g", correct: true },
+            { text: "Ei", protein: "13g", correct: false }
+        ],
+        explanation: "Zalm bevat ongeveer 25g eiwit per 100g, terwijl eieren ongeveer 13g per 100g hebben."
+    },
+    {
+        question: "Welke noot heeft meer eiwit per 100g?",
+        options: [
+            { text: "Amandelen", protein: "21g", correct: true },
+            { text: "Walnoten", protein: "15g", correct: false }
+        ],
+        explanation: "Amandelen bevatten ongeveer 21g eiwit per 100g, walnoten ongeveer 15g per 100g."
+    },
+    {
+        question: "Wat heeft meer eiwit per 100g?",
+        options: [
+            { text: "Quinoa (gekookt)", protein: "4g", correct: false },
+            { text: "Volkoren pasta (gekookt)", protein: "5g", correct: true }
+        ],
+        explanation: "Volkoren pasta heeft ongeveer 5g eiwit per 100g gekookt, quinoa ongeveer 4g per 100g gekookt."
+    }
+];
+
+let currentQuizQuestion = 0;
+let quizScore = 0;
+let quizAnswered = false;
+
+function initQuiz() {
+    currentQuizQuestion = 0;
+    quizScore = 0;
+    quizAnswered = false;
+    displayQuizQuestion();
+}
+
+function displayQuizQuestion() {
+    if (currentQuizQuestion >= quizQuestions.length) {
+        showQuizResults();
+        return;
+    }
+
+    const question = quizQuestions[currentQuizQuestion];
+    const questionEl = document.getElementById('quiz-question');
+    const progressEl = document.getElementById('quiz-progress');
+    const buttonsContainer = document.getElementById('quiz-buttons-container');
+    const feedbackEl = document.getElementById('quiz-feedback');
+
+    questionEl.textContent = question.question;
+    progressEl.textContent = `${currentQuizQuestion + 1}/6`;
+    feedbackEl.classList.add('hidden');
+    quizAnswered = false;
+
+    // Create buttons
+    buttonsContainer.innerHTML = question.options.map((option, index) => `
+        <button onclick="checkQuizAnswer(${index})" class="quiz-btn flex-1 py-1.5 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-semibold hover:bg-primary hover:text-white transition-colors">
+            ${option.text}<br><span class="text-[10px] opacity-70">(${option.protein})</span>
+        </button>
+    `).join('');
+}
+
+function checkQuizAnswer(selectedIndex) {
+    if (quizAnswered) return;
+    
+    quizAnswered = true;
+    const question = quizQuestions[currentQuizQuestion];
+    const selectedOption = question.options[selectedIndex];
+    const buttons = document.querySelectorAll('.quiz-btn');
+    const feedbackEl = document.getElementById('quiz-feedback');
+
+    // Disable all buttons and remove hover effects
+    buttons.forEach((btn, idx) => {
+        btn.disabled = true;
+        btn.classList.remove('hover:bg-primary', 'hover:text-white');
+        
+        // Show correct answer
+        if (question.options[idx].correct) {
+            btn.classList.add('bg-green-500', 'text-white');
+        } else if (idx === selectedIndex && !selectedOption.correct) {
+            btn.classList.add('bg-red-500', 'text-white');
+        }
+    });
+
+    // Update score
+    if (selectedOption.correct) {
+        quizScore++;
+    }
+
+    // Show feedback
+    feedbackEl.classList.remove('hidden');
+    const icon = selectedOption.correct ? '✅' : '❌';
+    const colorClass = selectedOption.correct ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400';
+    feedbackEl.innerHTML = `${icon} <span class="${colorClass}">${question.explanation}</span>`;
+
+    // Move to next question after 3 seconds
+    setTimeout(() => {
+        currentQuizQuestion++;
+        displayQuizQuestion();
+    }, 3000);
+}
+
+function showQuizResults() {
+    const questionEl = document.getElementById('quiz-question');
+    const progressEl = document.getElementById('quiz-progress');
+    const buttonsContainer = document.getElementById('quiz-buttons-container');
+    const feedbackEl = document.getElementById('quiz-feedback');
+
+    const percentage = Math.round((quizScore / quizQuestions.length) * 100);
+    let message = '';
+    let emoji = '';
+
+    if (percentage === 100) {
+        message = 'Perfect! Je bent een eiwit expert! 🏆';
+        emoji = '🎉';
+    } else if (percentage >= 80) {
+        message = 'Geweldig! Je weet veel over eiwitten!';
+        emoji = '⭐';
+    } else if (percentage >= 60) {
+        message = 'Goed gedaan! Je kent je eiwitten redelijk goed!';
+        emoji = '👍';
+    } else if (percentage >= 40) {
+        message = 'Niet slecht, maar er is ruimte voor verbetering!';
+        emoji = '📚';
+    } else {
+        message = 'Blijf leren over eiwitten!';
+        emoji = '💪';
+    }
+
+    questionEl.textContent = 'Quiz Voltooid!';
+    progressEl.textContent = `${quizScore}/${quizQuestions.length}`;
+    
+    buttonsContainer.innerHTML = `
+        <button onclick="initQuiz()" class="flex-1 py-2 px-4 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#3d5e7a] transition-colors">
+            Opnieuw spelen
+        </button>
+    `;
+
+    feedbackEl.classList.remove('hidden');
+    feedbackEl.innerHTML = `
+        <div class="text-center">
+            <div class="text-2xl mb-2">${emoji}</div>
+            <div class="font-bold text-primary text-lg mb-1">Score: ${quizScore}/6 (${percentage}%)</div>
+            <div class="text-slate-600 dark:text-slate-400">${message}</div>
+        </div>
+    `;
+}
+
 // Load products when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM ready - loading trending products');
     loadTrendingProducts();
+    initQuiz();
 });
