@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account aanmaken | Protein Mirror</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      /* Scrollen WEL, scrollbar NIET */
+      .app {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* Edge */
+      }
+      .app::-webkit-scrollbar {
+        display: none; /* Chrome / Safari */
+      }
+    </style>
+  </head>
+
+  <body class="bg-[#2D4559] h-screen overflow-hidden font-sans text-white">
+    <!-- APP WRAPPER (HIER SCROL JE) -->
+    <div class="app h-full overflow-y-auto">
+      <!-- Header -->
+      <header class="w-full text-center py-6">
+        <h1 class="text-2xl font-bold tracking-tight">ProteinMirror</h1>
+      </header>
+
+      <!-- Content -->
+      <div class="w-full max-w-sm mx-auto px-6 pb-24">
+        <form id="createAccountForm" class="space-y-6">
+          <!-- Voornaam -->
+          <div>
+            <label class="block text-sm font-semibold mb-1">Voornaam</label>
+            <input
+              type="text"
+              required
+              class="w-full rounded-md px-3 py-3 text-slate-900 focus:outline-none"
+            />
+          </div>
+
+          <!-- Achternaam -->
+          <div>
+            <label class="block text-sm font-semibold mb-1">Achternaam</label>
+            <input
+              type="text"
+              required
+              class="w-full rounded-md px-3 py-3 text-slate-900 focus:outline-none"
+            />
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label class="block text-sm font-semibold mb-1">E-mailadres</label>
+            <input
+              type="email"
+              required
+              class="w-full rounded-md px-3 py-3 text-slate-900 focus:outline-none"
+            />
+          </div>
+
+          <!-- Wachtwoord -->
+          <div>
+            <label class="block text-sm font-semibold mb-1">Wachtwoord</label>
+            <input
+              type="password"
+              required
+              class="w-full rounded-md px-3 py-3 text-slate-900 focus:outline-none"
+            />
+          </div>
+
+          <!-- Wachtwoord herhalen -->
+          <div>
+            <label class="block text-sm font-semibold mb-1">
+              Wachtwoord herhalen
+            </label>
+            <input
+              type="password"
+              required
+              class="w-full rounded-md px-3 py-3 text-slate-900 focus:outline-none"
+            />
+          </div>
+
+          <!-- Doelen -->
+          <div>
+            <label class="block text-sm font-semibold mb-3">
+              Wat zijn jouw doelen?
+            </label>
+
+            <div class="space-y-3">
+              <label
+                class="block bg-[#32485C] rounded-xl px-4 py-3 cursor-pointer"
+              >
+                <input type="checkbox" class="hidden peer" />
+                <div class="peer-checked:text-yellow-400 font-medium">
+                  Meer eiwitten eten
+                </div>
+                <p class="text-xs opacity-70">Focus op eiwitrijke producten</p>
+              </label>
+
+              <label
+                class="block bg-[#32485C] rounded-xl px-4 py-3 cursor-pointer"
+              >
+                <input type="checkbox" class="hidden peer" />
+                <div class="peer-checked:text-yellow-400 font-medium">
+                  Goedkoper boodschappen doen
+                </div>
+                <p class="text-xs opacity-70">Inzicht in eiwit per euro</p>
+              </label>
+
+              <label
+                class="block bg-[#32485C] rounded-xl px-4 py-3 cursor-pointer"
+              >
+                <input type="checkbox" class="hidden peer" />
+                <div class="peer-checked:text-yellow-400 font-medium">
+                  Gezonder kiezen
+                </div>
+                <p class="text-xs opacity-70">
+                  Bewuster kiezen met voedingsdata
+                </p>
+              </label>
+
+              <label
+                class="block bg-[#32485C] rounded-xl px-4 py-3 cursor-pointer"
+              >
+                <input type="checkbox" class="hidden peer" />
+                <div class="peer-checked:text-yellow-400 font-medium">
+                  Leren over voeding
+                </div>
+                <p class="text-xs opacity-70">Inzicht in labels en claims</p>
+              </label>
+            </div>
+          </div>
+
+          <!-- Supermarkten -->
+          <div class="mt-8">
+            <label class="block text-sm font-semibold mb-2">
+              Bij welke supermarkten doe je boodschappen?
+            </label>
+
+            <div class="space-y-2 text-sm">
+              <label class="flex items-center gap-2">
+                <input type="checkbox" class="rounded" />
+                Albert Heijn
+              </label>
+              <label class="flex items-center gap-2">
+                <input type="checkbox" class="rounded" />
+                Jumbo
+              </label>
+            </div>
+          </div>
+
+          <!-- Bonuskaart -->
+          <div class="mt-8">
+            <label class="block text-sm font-semibold mb-2">
+              Bonuskaart koppelen (optioneel)
+            </label>
+
+            <input
+              type="text"
+              placeholder="Bonuskaartnummer"
+              class="w-full rounded-md px-3 py-3 text-slate-900 focus:outline-none"
+            />
+
+            <p class="text-xs text-slate-200 opacity-70 mt-2">
+              We gebruiken dit alleen om aanbiedingen te tonen.
+            </p>
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            class="w-full bg-yellow-400 text-[#2D4559] text-xl font-bold py-3 rounded-xl mt-6"
+          >
+            Account aanmaken
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="create-account.js"></script>
+  </body>
+</html>

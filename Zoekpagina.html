@@ -101,7 +101,7 @@
 
         <!-- Product List -->
         <!-- <div class="flex flex-col gap-2" id="productList"> -->
-        <div id="productList" class="grid grid-cols-2 gap-4">
+        <div id="productList" class="grid grid-cols-2 gap-x-6 gap-y-10"></div>
           <div class="text-center py-8 text-slate-600 dark:text-slate-400">
             Producten laden...
           </div>
@@ -273,36 +273,45 @@
          3. HTML OUTPUT
          ========================= */
 
-            return `
-        <div
-          class="flex items-center gap-4 p-4 rounded-xl bg-surface-light dark:bg-surface-dark
-                 border border-slate-200 dark:border-slate-800 hover:shadow-md
-                 hover:border-primary transition-all cursor-pointer"
-          onclick="selectProduct('${encodeURIComponent(name)}')"
-        >
+           return `
+  <div
+    class="relative rounded-2xl overflow-hidden cursor-pointer bg-surface-light dark:bg-surface-dark
+           border border-slate-200 dark:border-slate-800"
+    onclick="selectProduct('${encodeURIComponent(name)}')"
+  >
 
-          <div class="w-16 h-16 flex items-center justify-center bg-slate-100 rounded-lg">
-            ${
-              image
-                ? `<img
-                    src="${image}"
-                    alt="${name}"
-                    class="w-full h-full object-contain rounded-lg"
-                    onerror="this.onerror=null; this.style.display='none'"
-                  />`
-                : `<span class="text-xs text-slate-400">No image</span>`
-            }
-          </div>
+    <!-- Afbeelding -->
+    <div class="w-full h-40 bg-white flex items-center justify-center">
+      ${
+        image
+          ? `<img
+              src="${image}"
+              alt="${name}"
+              class="w-full h-full object-contain"
+              onerror="this.onerror=null; this.style.display='none'"
+            />`
+          : `<span class="text-xs text-slate-400">Geen afbeelding</span>`
+      }
+    </div>
 
-          <div class="flex-1">
-            <div class="font-medium text-slate-900 dark:text-white">
-              ${name}
-            </div>
-            ${price ? `<div class="text-sm text-slate-500">${price}</div>` : ""}
-          </div>
+    <!-- Overlay onder -->
+   <div
+  class="absolute bottom-0 left-0 right-0
+         h-16 bg-[#2D4559]/85 backdrop-blur-sm
+         px-3 py-2 flex flex-col justify-center"
+>
+      <div class="text-sm font-semibold text-white leading-tight">
+        ${name}
+      </div>
+      ${
+        price
+          ? `<div class="text-xs text-slate-200 mt-0.5">${price}</div>`
+          : ""
+      }
+    </div>
 
-        </div>
-      `;
+  </div>
+`;
           })
           .join("");
       }

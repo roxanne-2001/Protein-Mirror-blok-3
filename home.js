@@ -26,6 +26,7 @@ function parseSimpleCSV(text) {
                 current += char;
             }
         }
+
         values.push(current.trim()); // Last field
         
         if (values.length >= 7) {
@@ -41,6 +42,7 @@ function parseSimpleCSV(text) {
             });
         }
     }
+
     return products;
 }
 
@@ -99,7 +101,6 @@ async function loadTrendingProducts() {
         // Combine and display
         const allSelected = [...selectedProtein, ...selectedNormal];
         displayProducts(allSelected);
-        
     } catch (e) {
         console.error('Error loading products:', e);
     }
