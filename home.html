@@ -1,206 +1,354 @@
 <!DOCTYPE html>
 <html class="light" lang="nl">
-
-<head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Protein Miror | Home</title>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#2D4559",
-                        "background-light": "#f6f8f6",
-                        "background-dark": "#102215",
-                        "surface-light": "#ffffff",
-                        "surface-dark": "#1c2e21",
-                    },
-                    fontFamily: {
-                        "display": ["Manrope", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.375rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "2xl": "1rem",
-                        "full": "9999px"
-                    },
-                },
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#2D4559",
+              "background-light": "#f6f8f6",
+              "background-dark": "#102215",
+              "surface-light": "#ffffff",
+              "surface-dark": "#1c2e21",
             },
-        }
+            fontFamily: {
+              display: ["Manrope", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.375rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              "2xl": "1rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
     </script>
     <style>
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        body {
-            min-height: max(884px, 100dvh);
-        }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      body {
+        min-height: max(884px, 100dvh);
+      }
     </style>
-</head>
+  </head>
 
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased">
-    <div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden pb-24">
-        <!-- Daily Insights Section -->
-        <section class="flex flex-col pt-6">
-            <div class="px-5 pb-3 flex justify-between items-end">
-                <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight">Daily Insights</h2>
-                <a class="text-sm font-medium text-slate-500 dark:text-slate-400" href="#">View all</a>
+  <body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased"
+  >
+    <div
+      class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden pb-24"
+    >
+      <!-- Daily Insights Section -->
+      <section class="flex flex-col pt-6">
+        <div class="px-5 pb-3 flex justify-between items-end">
+          <h2
+            class="text-slate-900 dark:text-white text-xl font-bold leading-tight"
+          >
+            Daily Insights
+          </h2>
+          <a
+            class="text-sm font-medium text-slate-500 dark:text-slate-400"
+            href="#"
+            >View all</a
+          >
+        </div>
+
+        <div
+          class="flex overflow-x-auto hide-scrollbar pb-4 px-5 gap-4 snap-x snap-mandatory"
+        >
+          <!-- Tip Card -->
+          <div
+            class="snap-center shrink-0 flex w-[340px] flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800"
+          >
+            <div class="relative h-32 w-full bg-slate-100 dark:bg-slate-800">
+              <div
+                class="absolute inset-0 bg-cover bg-center transition-transform hover:scale-105 duration-700"
+                style="
+                  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAbW-LDwWpQFC4h6ErOgYKNkpG93fJFUcbnIwTmvNltdLBqlySWglcc32idpzyHHgXz-pYIU4TpwNyWWeeGH37-XM2iPO-U-hUzlrsvfZD8Owk1FEu2YKe6-quH2v4X2Wgnb2YmNDYv7HzmakD8rUJodVPmpuWYBImBv4-RcMJFcuxc0FEwK4zd7iWXBbJun55pg7sLbcZtoKTPw-ovZ5UhleFN3sQFSF8ePOKcF4ywE4ZGvnacnDEUoSuBjSwBU1NdDK2iUWIniyGw');
+                "
+              ></div>
+              <div
+                class="absolute top-3 left-3 bg-white/90 dark:bg-black/60 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1"
+              >
+                <span class="material-symbols-outlined text-primary text-[16px]"
+                  >lightbulb</span
+                >
+                <span class="text-xs font-bold">Tip</span>
+              </div>
             </div>
-            
-            <div class="flex overflow-x-auto hide-scrollbar pb-4 px-5 gap-4 snap-x snap-mandatory">
-                <!-- Tip Card -->
-                <div class="snap-center shrink-0 flex w-[340px] flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800">
-                    <div class="relative h-32 w-full bg-slate-100 dark:bg-slate-800">
-                        <div class="absolute inset-0 bg-cover bg-center transition-transform hover:scale-105 duration-700" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAbW-LDwWpQFC4h6ErOgYKNkpG93fJFUcbnIwTmvNltdLBqlySWglcc32idpzyHHgXz-pYIU4TpwNyWWeeGH37-XM2iPO-U-hUzlrsvfZD8Owk1FEu2YKe6-quH2v4X2Wgnb2YmNDYv7HzmakD8rUJodVPmpuWYBImBv4-RcMJFcuxc0FEwK4zd7iWXBbJun55pg7sLbcZtoKTPw-ovZ5UhleFN3sQFSF8ePOKcF4ywE4ZGvnacnDEUoSuBjSwBU1NdDK2iUWIniyGw");'></div>
-                        <div class="absolute top-3 left-3 bg-white/90 dark:bg-black/60 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1">
-                            <span class="material-symbols-outlined text-primary text-[16px]">lightbulb</span>
-                            <span class="text-xs font-bold">Tip</span>
-                        </div>
-                    </div>
-                    <div class="p-4 flex flex-col gap-1">
-                        <h3 class="text-slate-900 dark:text-white text-base font-bold">Wist je dat?</h3>
-                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Amandelen bevatten meer eiwit per portie dan walnoten.</p>
-                    </div>
-                </div>
-
-                <!-- Quiz Card -->
-                <div class="snap-center shrink-0 flex w-[340px] flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800">
-                    <div class="relative h-32 w-full bg-slate-100 dark:bg-slate-800">
-                        <div class="absolute inset-0 bg-cover bg-center transition-transform hover:scale-105 duration-700" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCcGt0QK4E9LPjC1mAsJbbeenqR3Icxdm4AbVgTp-0O_vWVks5VRAhYVcKPE55nHFVAlyWvX0VsdkZ7Nn6uhDmr-Ck45dNGPy5AsmK6bVg_64Cu7PhtMF332oOvWz0Q3BzGnPedWDw9P_jdcbsbB5icyD5OpUm3mNJWC28MDk2QxVPctd4IwsIUNE6KLVg4uiwBOAWOHnFI-x-ofs66kr-UKv5dPZ09KTKLarNMcS1LmVK6qh2I3umPJKf4Vn0_1rZ58y_LiijkW_2H");'></div>
-                        <div class="absolute top-3 left-3 bg-white/90 dark:bg-black/60 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1">
-                            <span class="material-symbols-outlined text-primary text-[16px]">help</span>
-                            <span class="text-xs font-bold">Quiz</span>
-                        </div>
-                    </div>
-                    <div class="p-4 flex flex-col gap-2" id="quiz-container">
-                        <div class="flex items-center justify-between mb-1">
-                            <h3 class="text-slate-900 dark:text-white text-base font-bold" id="quiz-question">Wat heeft meer eiwit?</h3>
-                            <span class="text-xs font-bold text-primary" id="quiz-progress">1/6</span>
-                        </div>
-                        <div class="flex gap-2 mt-1" id="quiz-buttons-container">
-                            <!-- Buttons will be inserted here dynamically -->
-                        </div>
-                        <div id="quiz-feedback" class="hidden mt-2 text-xs font-medium"></div>
-                    </div>
-                </div>
+            <div class="p-4 flex flex-col gap-1">
+              <h3 class="text-slate-900 dark:text-white text-base font-bold">
+                Wist je dat?
+              </h3>
+              <p
+                class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed"
+              >
+                Amandelen bevatten meer eiwit per portie dan walnoten.
+              </p>
             </div>
-        </section>
+          </div>
 
-        <!-- Recommended for You Section -->
-        <section class="flex flex-col pt-2 pb-2">
-            <div class="px-5 pb-3 flex justify-between items-center">
-                <div class="flex flex-col">
-                    <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight">Recommended for You</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Based on your scanning history</p>
-                </div>
-                <button class="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 dark:text-slate-500 hover:text-primary hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                    <span class="material-symbols-outlined text-[20px]">tune</span>
-                </button>
+          <!-- Quiz Card -->
+          <div
+            class="snap-center shrink-0 flex w-[340px] flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800"
+          >
+            <div class="relative h-32 w-full bg-slate-100 dark:bg-slate-800">
+              <div
+                class="absolute inset-0 bg-cover bg-center transition-transform hover:scale-105 duration-700"
+                style="
+                  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCcGt0QK4E9LPjC1mAsJbbeenqR3Icxdm4AbVgTp-0O_vWVks5VRAhYVcKPE55nHFVAlyWvX0VsdkZ7Nn6uhDmr-Ck45dNGPy5AsmK6bVg_64Cu7PhtMF332oOvWz0Q3BzGnPedWDw9P_jdcbsbB5icyD5OpUm3mNJWC28MDk2QxVPctd4IwsIUNE6KLVg4uiwBOAWOHnFI-x-ofs66kr-UKv5dPZ09KTKLarNMcS1LmVK6qh2I3umPJKf4Vn0_1rZ58y_LiijkW_2H');
+                "
+              ></div>
+              <div
+                class="absolute top-3 left-3 bg-white/90 dark:bg-black/60 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1"
+              >
+                <span class="material-symbols-outlined text-primary text-[16px]"
+                  >help</span
+                >
+                <span class="text-xs font-bold">Quiz</span>
+              </div>
             </div>
-            
-            <div class="flex overflow-x-auto hide-scrollbar pb-4 px-5 gap-3 snap-x snap-mandatory">
-                <!-- Best Match Card -->
-                <div class="snap-center shrink-0 flex w-[260px] bg-surface-light dark:bg-surface-dark p-2.5 rounded-xl shadow-sm border border-primary/40 relative overflow-hidden group hover:shadow-md transition-all">
-                    <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-3xl -mr-2 -mt-2"></div>
-                    <div class="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-800">
-                        <div class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-500" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuArW5DV0fICuKGX-lslZ82TcoT0PfPDE-QYYAslBNlFgae8GaSkqLDc29v0i8PMOQadElLW23CMHUTDm-Og9jWfxyXrwEoJqFop46vWVOCF2tGwtWIHpPNwnFojTLwxVykZOli7xsHK1TizyybBvnwaaT_TJ-AeR0Mr-5L5Nckn4Cy7KgTo0-jdr5z16nSDODYCxLNBw0lK0naBxk2YrKydNYecDNBpqX44DK56oIjtLVCoC2cg7DryF3N6ZaEsoG7_bgbFkJGIpPa8");'></div>
-                    </div>
-                    <div class="flex flex-col justify-center ml-3 flex-1 min-w-0 z-10">
-                        <div class="flex items-center gap-1 mb-1">
-                            <span class="text-[10px] font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded uppercase tracking-wide">98% Match</span>
-                        </div>
-                        <h3 class="text-sm font-bold text-slate-900 dark:text-white truncate">Protein Crisp Bar</h3>
-                        <div class="flex items-center gap-1 mt-1 text-xs text-slate-500 dark:text-slate-400">
-                            <span class="material-symbols-outlined text-[14px] text-primary">check_circle</span>
-                            <span>Fits your goal</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Similar Product Card -->
-                <div class="snap-center shrink-0 flex w-[260px] bg-surface-light dark:bg-surface-dark p-2.5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 relative overflow-hidden group hover:shadow-md transition-all">
-                    <div class="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-800">
-                        <div class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-500" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCSAyGLkakBERWPIz9Tmn80Y2rOF62uW14o7mhUc3f-zEOxb2fLaXNINCH2vpzumlaaHKmgiJNHCjBykCBvSfSZu-CVHepK4mtaJYe70gtyQHgZl7FJk8-qck7hGxF-FEJbtcVgA4uY33lgiVpv2AnffGivDm4F8Cx2IkWn3z-3FvRoDpuWHd_o1j8iffDHFdUiyAPMzHfKEbfRpja1ghZSvZAOy9gfoHC3egnTOLqZl1tdSrynoRZ9Zd_IPnh-cxefDsaMY9biy8x_");'></div>
-                    </div>
-                    <div class="flex flex-col justify-center ml-3 flex-1 min-w-0 z-10">
-                        <div class="flex items-center gap-1 mb-1">
-                            <span class="text-[10px] font-bold text-blue-500 bg-blue-500/10 px-1.5 py-0.5 rounded uppercase tracking-wide">Similar</span>
-                        </div>
-                        <h3 class="text-sm font-bold text-slate-900 dark:text-white truncate">Red Lentil Penne</h3>
-                        <div class="flex items-center gap-1 mt-1 text-xs text-slate-500 dark:text-slate-400">
-                            <span>Because you scanned Pasta</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Try New Card -->
-                <div class="snap-center shrink-0 flex w-[260px] bg-surface-light dark:bg-surface-dark p-2.5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 relative overflow-hidden group hover:shadow-md transition-all">
-                    <div class="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-800">
-                        <div class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-500" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAbW-LDwWpQFC4h6ErOgYKNkpG93fJFUcbnIwTmvNltdLBqlySWglcc32idpzyHHgXz-pYIU4TpwNyWWeeGH37-XM2iPO-U-hUzlrsvfZD8Owk1FEu2YKe6-quH2v4X2Wgnb2YmNDYv7HzmakD8rUJodVPmpuWYBImBv4-RcMJFcuxc0FEwK4zd7iWXBbJun55pg7sLbcZtoKTPw-ovZ5UhleFN3sQFSF8ePOKcF4ywE4ZGvnacnDEUoSuBjSwBU1NdDK2iUWIniyGw");'></div>
-                    </div>
-                    <div class="flex flex-col justify-center ml-3 flex-1 min-w-0 z-10">
-                        <div class="flex items-center gap-1 mb-1">
-                            <span class="text-[10px] font-bold text-orange-500 bg-orange-500/10 px-1.5 py-0.5 rounded uppercase tracking-wide">Try New</span>
-                        </div>
-                        <h3 class="text-sm font-bold text-slate-900 dark:text-white truncate">Raw Almonds</h3>
-                        <div class="flex items-center gap-1 mt-1 text-xs text-slate-500 dark:text-slate-400">
-                            <span>Plant-based protein</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="p-4 flex flex-col gap-2" id="quiz-container">
+              <div class="flex items-center justify-between mb-1">
+                <h3
+                  class="text-slate-900 dark:text-white text-base font-bold"
+                  id="quiz-question"
+                >
+                  Wat heeft meer eiwit?
+                </h3>
+                <span class="text-xs font-bold text-primary" id="quiz-progress"
+                  >1/6</span
+                >
+              </div>
+              <div class="flex gap-2 mt-1" id="quiz-buttons-container">
+                <!-- Buttons will be inserted here dynamically -->
+              </div>
+              <div
+                id="quiz-feedback"
+                class="hidden mt-2 text-xs font-medium"
+              ></div>
             </div>
-        </section>
+          </div>
+        </div>
+      </section>
 
-        <!-- Trending High Protein Section -->
-        <section class="flex flex-col pt-2">
-            <h2 class="px-5 pb-4 text-slate-900 dark:text-white text-xl font-bold leading-tight">Trending High Protein</h2>
-            <div id="trending-products-grid" class="grid grid-cols-2 gap-4 px-5">
-                <!-- Products will be loaded dynamically from CSV -->
-            </div>
-        </section>
+      <!-- Recommended for You Section -->
+      <section class="flex flex-col pt-2 pb-2">
+        <div class="px-5 pb-3 flex justify-between items-center">
+          <div class="flex flex-col">
+            <h2
+              class="text-slate-900 dark:text-white text-xl font-bold leading-tight"
+            >
+              Recommended for You
+            </h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Based on your scanning history
+            </p>
+          </div>
+          <button
+            class="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 dark:text-slate-500 hover:text-primary hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            <span class="material-symbols-outlined text-[20px]">tune</span>
+          </button>
+        </div>
 
-        <!-- Bottom Navigation -->
-        <nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-surface-dark border-t border-slate-200 dark:border-slate-800 z-30">
-            <div class="flex items-center justify-around h-16 max-w-lg mx-auto">
-                <!-- Home (Active) -->
-                <a href="home.html" class="flex flex-col items-center justify-center gap-1 flex-1 h-full text-primary transition-colors relative">
-                    <span class="material-symbols-outlined text-[28px] font-bold">home</span>
-                    <span class="text-xs font-bold">Home</span>
-                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-primary rounded-b-full"></div>
-                </a>
-                
-                <!-- Search -->
-                <a href="Zoekpagina.html" class="flex flex-col items-center justify-center gap-1 flex-1 h-full text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
-                    <span class="material-symbols-outlined text-[28px]">search</span>
-                    <span class="text-xs font-medium">Zoek</span>
-                </a>
-                
-                <!-- Compare -->
-                <a href="index.html" class="flex flex-col items-center justify-center gap-1 flex-1 h-full text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
-                    <span class="material-symbols-outlined text-[28px]">compare_arrows</span>
-                    <span class="text-xs font-medium">Vergelijken</span>
-                </a>
-                
-                <!-- Favourite -->
-                <a href="#" class="flex flex-col items-center justify-center gap-1 flex-1 h-full text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
-                    <span class="material-symbols-outlined text-[28px]">favorite</span>
-                    <span class="text-xs font-medium">Favorieten</span>
-                </a>
+        <div
+          class="flex overflow-x-auto hide-scrollbar pb-4 px-5 gap-3 snap-x snap-mandatory"
+        >
+          <!-- Best Match Card -->
+          <div
+            class="snap-center shrink-0 flex w-[260px] bg-surface-light dark:bg-surface-dark p-2.5 rounded-xl shadow-sm border border-primary/40 relative overflow-hidden group hover:shadow-md transition-all"
+          >
+            <div
+              class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-3xl -mr-2 -mt-2"
+            ></div>
+            <div
+              class="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-800"
+            >
+              <div
+                class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-500"
+                style="
+                  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuArW5DV0fICuKGX-lslZ82TcoT0PfPDE-QYYAslBNlFgae8GaSkqLDc29v0i8PMOQadElLW23CMHUTDm-Og9jWfxyXrwEoJqFop46vWVOCF2tGwtWIHpPNwnFojTLwxVykZOli7xsHK1TizyybBvnwaaT_TJ-AeR0Mr-5L5Nckn4Cy7KgTo0-jdr5z16nSDODYCxLNBw0lK0naBxk2YrKydNYecDNBpqX44DK56oIjtLVCoC2cg7DryF3N6ZaEsoG7_bgbFkJGIpPa8');
+                "
+              ></div>
             </div>
-        </nav>
+            <div class="flex flex-col justify-center ml-3 flex-1 min-w-0 z-10">
+              <div class="flex items-center gap-1 mb-1">
+                <span
+                  class="text-[10px] font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded uppercase tracking-wide"
+                  >98% Match</span
+                >
+              </div>
+              <h3
+                class="text-sm font-bold text-slate-900 dark:text-white truncate"
+              >
+                Protein Crisp Bar
+              </h3>
+              <div
+                class="flex items-center gap-1 mt-1 text-xs text-slate-500 dark:text-slate-400"
+              >
+                <span class="material-symbols-outlined text-[14px] text-primary"
+                  >check_circle</span
+                >
+                <span>Fits your goal</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Similar Product Card -->
+          <div
+            class="snap-center shrink-0 flex w-[260px] bg-surface-light dark:bg-surface-dark p-2.5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 relative overflow-hidden group hover:shadow-md transition-all"
+          >
+            <div
+              class="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-800"
+            >
+              <div
+                class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-500"
+                style="
+                  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCSAyGLkakBERWPIz9Tmn80Y2rOF62uW14o7mhUc3f-zEOxb2fLaXNINCH2vpzumlaaHKmgiJNHCjBykCBvSfSZu-CVHepK4mtaJYe70gtyQHgZl7FJk8-qck7hGxF-FEJbtcVgA4uY33lgiVpv2AnffGivDm4F8Cx2IkWn3z-3FvRoDpuWHd_o1j8iffDHFdUiyAPMzHfKEbfRpja1ghZSvZAOy9gfoHC3egnTOLqZl1tdSrynoRZ9Zd_IPnh-cxefDsaMY9biy8x_');
+                "
+              ></div>
+            </div>
+            <div class="flex flex-col justify-center ml-3 flex-1 min-w-0 z-10">
+              <div class="flex items-center gap-1 mb-1">
+                <span
+                  class="text-[10px] font-bold text-blue-500 bg-blue-500/10 px-1.5 py-0.5 rounded uppercase tracking-wide"
+                  >Similar</span
+                >
+              </div>
+              <h3
+                class="text-sm font-bold text-slate-900 dark:text-white truncate"
+              >
+                Red Lentil Penne
+              </h3>
+              <div
+                class="flex items-center gap-1 mt-1 text-xs text-slate-500 dark:text-slate-400"
+              >
+                <span>Because you scanned Pasta</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Try New Card -->
+          <div
+            class="snap-center shrink-0 flex w-[260px] bg-surface-light dark:bg-surface-dark p-2.5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 relative overflow-hidden group hover:shadow-md transition-all"
+          >
+            <div
+              class="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-800"
+            >
+              <div
+                class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-500"
+                style="
+                  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAbW-LDwWpQFC4h6ErOgYKNkpG93fJFUcbnIwTmvNltdLBqlySWglcc32idpzyHHgXz-pYIU4TpwNyWWeeGH37-XM2iPO-U-hUzlrsvfZD8Owk1FEu2YKe6-quH2v4X2Wgnb2YmNDYv7HzmakD8rUJodVPmpuWYBImBv4-RcMJFcuxc0FEwK4zd7iWXBbJun55pg7sLbcZtoKTPw-ovZ5UhleFN3sQFSF8ePOKcF4ywE4ZGvnacnDEUoSuBjSwBU1NdDK2iUWIniyGw');
+                "
+              ></div>
+            </div>
+            <div class="flex flex-col justify-center ml-3 flex-1 min-w-0 z-10">
+              <div class="flex items-center gap-1 mb-1">
+                <span
+                  class="text-[10px] font-bold text-orange-500 bg-orange-500/10 px-1.5 py-0.5 rounded uppercase tracking-wide"
+                  >Try New</span
+                >
+              </div>
+              <h3
+                class="text-sm font-bold text-slate-900 dark:text-white truncate"
+              >
+                Raw Almonds
+              </h3>
+              <div
+                class="flex items-center gap-1 mt-1 text-xs text-slate-500 dark:text-slate-400"
+              >
+                <span>Plant-based protein</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Trending High Protein Section -->
+      <section class="flex flex-col pt-2">
+        <h2
+          class="px-5 pb-4 text-slate-900 dark:text-white text-xl font-bold leading-tight"
+        >
+          Trending High Protein
+        </h2>
+        <div id="trending-products-grid" class="grid grid-cols-2 gap-4 px-5">
+          <!-- Products will be loaded dynamically from CSV -->
+        </div>
+      </section>
+
+      <!-- Bottom Navigation -->
+      <nav
+        class="fixed bottom-0 left-0 right-0 bg-white dark:bg-surface-dark border-t border-slate-200 dark:border-slate-800 z-30"
+      >
+        <div class="flex items-center justify-around h-16 max-w-lg mx-auto">
+          <!-- Home (Active) -->
+          <a
+            href="home.html"
+            class="flex flex-col items-center justify-center gap-1 flex-1 h-full text-primary transition-colors relative"
+          >
+            <span class="material-symbols-outlined text-[28px] font-bold"
+              >home</span
+            >
+            <span class="text-xs font-bold">Home</span>
+            <div
+              class="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-primary rounded-b-full"
+            ></div>
+          </a>
+
+          <!-- Search -->
+          <a
+            href="Zoekpagina.html"
+            class="flex flex-col items-center justify-center gap-1 flex-1 h-full text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+          >
+            <span class="material-symbols-outlined text-[28px]">search</span>
+            <span class="text-xs font-medium">Zoek</span>
+          </a>
+
+          <!-- Compare -->
+          <a
+            href="index.html"
+            class="flex flex-col items-center justify-center gap-1 flex-1 h-full text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+          >
+            <span class="material-symbols-outlined text-[28px]"
+              >compare_arrows</span
+            >
+            <span class="text-xs font-medium">Vergelijken</span>
+          </a>
+
+          <!-- Favourite -->
+          <a
+            href="account.html"
+            class="flex flex-col items-center justify-center gap-1 flex-1 h-full text-slate-400 dark:text-slate-500 transition-colors"
+          >
+            <span class="material-symbols-outlined text-[28px]">person</span>
+            <span class="text-xs font-medium">Account</span>
+          </a>
+        </div>
+      </nav>
     </div>
 
     <script src="home.js"></script>
-</body>
-
+  </body>
 </html>
