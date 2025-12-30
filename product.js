@@ -1,5 +1,5 @@
 // Juiste CSV-bestand pad
-const CSV_URL = "CSV's/results_all.csv";
+const CSV_URL = "ah_normale_producten(in).csv";
 
 // Sample product data (fallback)
 const defaultProduct = {
