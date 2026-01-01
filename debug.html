@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug CSV Parser</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #00ff00;
+        }
+        .log {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #00ff00;
+        }
+        .error {
+            color: #ff0000;
+            border-left-color: #ff0000;
+        }
+        .success {
+            color: #00ff00;
+        }
+        .info {
+            color: #00aaff;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSV Parser Debug Output</h1>
+    <div id="output"></div>
+
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `log ${type}`;
+            div.textContent = message;
+            output.appendChild(div);
+        }
+
+        function parseCSV(text) {
+            const lines = text.trim().split('\n');
+            const products = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                let line = lines[i].trim();
+                if (!line) continue;
+                
+                if (line.startsWith('"')) {
+                    const endQuoteIndex = line.lastIndexOf('"');
+                    if (endQuoteIndex > 0) {
+                        line = line.substring(1, endQuoteIndex);
+                    }
+                }
+                
+                const values = [];
+                let current = '';
+                let inQuotes = false;
+                let prevChar = '';
+                
+                for (let j = 0; j < line.length; j++) {
+                    const char = line[j];
+                    
+                    if (char === '"' && prevChar === '"') {
+                        current += char;
+                        prevChar = '';
+                        continue;
+                    } else if (char === '"') {
+                        inQuotes = !inQuotes;
+                        prevChar = char;
+                        continue;
+                    } else if (char === ',' && !inQuotes) {
+                        values.push(current.trim());
+                        current = '';
+                        prevChar = char;
+                        continue;
+                    }
+                    
+                    current += char;
+                    prevChar = char;
+                }
+                
+                values.push(current.trim());
+                
+                if (values.length >= 7) {
+                    products.push({
+                        'Naam': values[0] || '',
+                        'Prijs': values[1] || '',
+                        'Aanbieding': values[2] || '-',
+                        'Eiwit per 100g': values[3] || '',
+                        'Koolhydraten per 100g': values[4] || '',
+                        'Vetten per 100g': values[5] || '',
+                        'Calorieën': values[6] || '',
+                        'Link': values[7] || '',
+                        'Afbeelding': values[8] || ''
+                    });
+                }
+            }
+
+            return products;
+        }
+
+        function getProteinValue(proteinString) {
+            const match = proteinString.match(/[\d.]+/);
+            return match ? parseFloat(match[0]) : 0;
+        }
+
+        async function testCSV() {
+            log('🔄 Starting CSV load test...', 'info');
+            
+            try {
+                log('Fetching CSV file...', 'info');
+                const response = await fetch('alle_producten_samengevoegd.csv');
+                
+                if (!response.ok) {
+                    throw new Error('CSV not found - Status: ' + response.status);
+                }
+                
+                log('✅ CSV file fetched successfully', 'success');
+                
+                const csvText = await response.text();
+                log('CSV size: ' + csvText.length + ' characters', 'info');
+                
+                log('Parsing CSV...', 'info');
+                const allProducts = parseCSV(csvText);
+                
+                log('✅ Parsed ' + allProducts.length + ' total products', 'success');
+                
+                if (allProducts.length === 0) {
+                    log('❌ ERROR: No products parsed!', 'error');
+                    return;
+                }
+                
+                log('First product:', 'info');
+                log('  Naam: ' + allProducts[0].Naam, 'info');
+                log('  Prijs: ' + allProducts[0].Prijs, 'info');
+                log('  Eiwit: ' + allProducts[0]['Eiwit per 100g'], 'info');
+                log('  Koolhydraten: ' + allProducts[0]['Koolhydraten per 100g'], 'info');
+                log('  Vetten: ' + allProducts[0]['Vetten per 100g'], 'info');
+                log('  Calorieën: ' + allProducts[0]['Calorieën'], 'info');
+                
+                const proteinProducts = allProducts.filter(p => {
+                    const protein = getProteinValue(p['Eiwit per 100g']);
+                    return protein >= 8;
+                });
+                
+                const normalProducts = allProducts.filter(p => {
+                    const protein = getProteinValue(p['Eiwit per 100g']);
+                    return protein < 8 && protein > 0;
+                });
+                
+                log('✅ Protein products (>=8g): ' + proteinProducts.length, 'success');
+                log('✅ Normal products (<8g): ' + normalProducts.length, 'success');
+                
+                if (proteinProducts.length > 0) {
+                    log('First 3 protein products:', 'info');
+                    for (let i = 0; i < Math.min(3, proteinProducts.length); i++) {
+                        log('  ' + i + ': ' + proteinProducts[i].Naam + ' (' + proteinProducts[i]['Eiwit per 100g'] + ')', 'info');
+                    }
+                }
+                
+                if (normalProducts.length > 0) {
+                    log('First 3 normal products:', 'info');
+                    for (let i = 0; i < Math.min(3, normalProducts.length); i++) {
+                        log('  ' + i + ': ' + normalProducts[i].Naam + ' (' + normalProducts[i]['Eiwit per 100g'] + ')', 'info');
+                    }
+                }
+                
+                log('✅ TEST COMPLETED SUCCESSFULLY!', 'success');
+                
+            } catch (e) {
+                log('❌ ERROR: ' + e.message, 'error');
+                log('Stack: ' + e.stack, 'error');
+            }
+        }
+
+        testCSV();
+    </script>
+</body>
+</html>
