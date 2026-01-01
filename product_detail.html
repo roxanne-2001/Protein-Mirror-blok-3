@@ -3,117 +3,141 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product Pagina</title>
+    <title>Product | ProteinMirror</title>
 
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="product_detail.css" />
   </head>
-  <body>
-    <div class="header">
-      <button class="back-btn" onclick="history.back()">Terug</button>
-    </div>
 
-    <div class="product-container">
-      <!-- PRODUCT HEADER -->
-      <div class="product-image-section">
-        <img
-          id="productImage"
-          src="https://via.placeholder.com/250?text=Product"
-          alt="Product"
-          class="product-image"
-        />
+  <body class="bg-[#2D4559] text-white font-sans h-screen overflow-hidden">
+    <!-- APP WRAPPER -->
+    <div class="app h-full overflow-y-auto pb-24">
+      <!-- HEADER -->
+      <header class="flex items-center px-4 py-4">
+        <button
+          onclick="history.back()"
+          class="text-sm text-yellow-400 font-medium"
+        >
+          ← Terug
+        </button>
+      </header>
 
-        <div class="product-name" id="productName">Laden...</div>
-        <div class="product-price" id="productPrice">-</div>
-      </div>
+      <!-- CONTENT -->
+      <main class="max-w-sm mx-auto px-6 space-y-8">
+        <!-- PRODUCT HEADER -->
+        <section class="space-y-3">
+          <!-- IMAGE + PRIJS -->
+          <div
+            id="productImageWrapper"
+            class="relative w-full h-48 bg-white rounded-xl flex items-center justify-center overflow-hidden"
+          >
+            <img
+              id="productImage"
+              alt="Product"
+              class="w-full h-full object-contain"
+            />
 
-      <!-- SCORES VISUAL -->
-      <div class="score-visual">
-        <div class="score-circle mas">
-          <div class="score-main" id="masLabel">-</div>
-          <div class="score-sub">Marketing klopt?</div>
-        </div>
+            <!-- PRIJS OVERLAY -->
+            <div
+              class="absolute bottom-2 right-2 bg-[#2D4559]/90 text-yellow-400 text-sm font-semibold px-3 py-1 rounded-lg"
+              id="productPrice"
+            >
+              –
+            </div>
+          </div>
 
-        <div class="score-circle pqi">
-          <div class="score-main" id="pqiLabel">-</div>
-          <div class="score-sub">Eiwitkwaliteit</div>
-        </div>
+          <!-- TITEL -->
+          <h1
+            id="productName"
+            class="text-base font-semibold leading-snug line-clamp-2 text-center"
+          >
+            Laden…
+          </h1>
+        </section>
 
-        <div class="score-circle ppg">
-          <div class="score-main" id="ppgValue">-</div>
-          <div class="score-sub" id="ppgLabel">-</div>
-        </div>
-      </div>
+        <!-- SCORES -->
+        <section class="grid grid-cols-3 gap-4 text-center">
+          <div class="score-circle">
+            <div class="score-main" id="masLabel">-</div>
+            <div class="score-sub">Marketing klopt?</div>
+          </div>
 
-      <!-- NUTRITION -->
-      <div class="nutrition-section">
-        <button class="dropdown-toggle" onclick="toggleDropdown(0)">
-          <span>Voedingswaardes</span>
-          <span class="dropdown-icon">▼</span>
+          <div class="score-circle">
+            <div class="score-main" id="pqiLabel">-</div>
+            <div class="score-sub">Eiwitkwaliteit</div>
+          </div>
+
+          <div class="score-circle">
+            <div class="score-main" id="ppgValue">-</div>
+            <div class="score-sub" id="ppgLabel">-</div>
+          </div>
+        </section>
+
+        <!-- VOEDINGSWAARDES -->
+        <section class="bg-[#32485C] rounded-xl overflow-hidden">
+          <button class="dropdown-toggle" onclick="toggleDropdown(0)">
+            <span>Voedingswaardes</span>
+            <span>▼</span>
+          </button>
+
+          <div class="dropdown-content" id="nutrition-dropdown-0">
+            <div class="nutrition-row">
+              <span>Calorieën (per 100g)</span>
+              <span id="kcal">-</span>
+            </div>
+            <div class="nutrition-row">
+              <span>Eiwit (per 100g)</span>
+              <span id="protein">-</span>
+            </div>
+            <div class="nutrition-row">
+              <span>Koolhydraten</span>
+              <span id="carbs">-</span>
+            </div>
+            <div class="nutrition-row">
+              <span>Vetten</span>
+              <span id="fat">-</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- EXTRA INFO -->
+        <section class="bg-[#32485C] rounded-xl overflow-hidden">
+          <button class="dropdown-toggle" onclick="toggleDropdown(1)">
+            <span>Informatie</span>
+            <span>▼</span>
+          </button>
+
+          <div class="dropdown-content" id="nutrition-dropdown-1">
+            <div class="nutrition-row">
+              <span>Totaal eiwit</span>
+              <span id="totalProtein">-</span>
+            </div>
+            <div class="nutrition-row">
+              <span>Winkel</span>
+              <span id="store">-</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <button
+          id="visitButton"
+          class="w-full bg-yellow-400 text-[#2D4559] font-bold py-3 rounded-xl"
+        >
+          Bekijk op website →
         </button>
 
-        <div class="dropdown-content" id="nutrition-dropdown-0">
-          <div class="nutrition-row">
-            <div class="nutrition-label">Calorieën (per 100g)</div>
-            <div class="nutrition-value" id="kcal">-</div>
-          </div>
-          <div class="nutrition-row">
-            <div class="nutrition-label">Eiwit (per 100g)</div>
-            <div class="nutrition-value" id="protein">-</div>
-          </div>
-          <div class="nutrition-row">
-            <div class="nutrition-label">Koolhydraten</div>
-            <div class="nutrition-value" id="carbs">-</div>
-          </div>
-          <div class="nutrition-row">
-            <div class="nutrition-label">Vetten</div>
-            <div class="nutrition-value" id="fat">-</div>
-          </div>
-          <div class="nutrition-row">
-            <div class="nutrition-label">Suikers</div>
-            <div class="nutrition-value" id="sugar">-</div>
-          </div>
-          <div class="nutrition-row">
-            <div class="nutrition-label">Zout</div>
-            <div class="nutrition-value" id="salt">-</div>
-          </div>
-          <div class="nutrition-row">
-            <div class="nutrition-label">Gewicht verpakking</div>
-            <div class="nutrition-value" id="weight">-</div>
-          </div>
+        <!-- INFO -->
+        <div class="text-xs text-slate-300 leading-relaxed">
+          <strong>Score-uitleg:</strong><br />
+          <strong>PPG:</strong> lager = beter<br />
+          <strong>PQI:</strong> hoger = beter<br />
+          <strong>MAS:</strong> ja = marketing klopt
         </div>
-      </div>
-
-      <!-- INFO -->
-      <div class="nutrition-section">
-        <button class="dropdown-toggle" onclick="toggleDropdown(1)">
-          <span>Informatie</span>
-          <span class="dropdown-icon">▼</span>
-        </button>
-
-        <div class="dropdown-content" id="nutrition-dropdown-1">
-          <div class="nutrition-row">
-            <div class="nutrition-label">Totaal eiwit</div>
-            <div class="nutrition-value" id="totalProtein">-</div>
-          </div>
-          <div class="nutrition-row">
-            <div class="nutrition-label">Winkel</div>
-            <div class="nutrition-value" id="store">-</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- STORE BUTTON -->
-      <button class="visit-store-btn" id="visitButton">
-        Bekijk op website →
-      </button>
-
-      <!-- INFO TEXT -->
-      <div class="info-text">
-        <strong>Score Uitleg:</strong><br />
-        <strong>PPG:</strong> Lager = beter<br />
-        <strong>PQI:</strong> Hoger = beter<br />
-        <strong>MAS:</strong> JA = marketing klopt
-      </div>
+      </main>
     </div>
 
     <script src="product.js"></script>

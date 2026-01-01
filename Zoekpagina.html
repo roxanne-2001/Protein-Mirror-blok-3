@@ -233,6 +233,7 @@
 
         list.innerHTML = products
           .map((p) => {
+           
             /* =========================
          1. NAAM + PRIJS OPSCHONEN
          ========================= */
@@ -243,7 +244,7 @@
               .trim();
             let price = p.Prijs || "";
 
-            // Fix: prijs zit soms in de naam (door kapotte CSV quotes)
+            
             if (name.includes("€")) {
               const parts = name.split("€");
               name = parts[0].replace(/,+$/, "").trim();
