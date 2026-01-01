@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSV Parse Test</title>
+</head>
+<body>
+    <h1>CSV Parse Test</h1>
+    <pre id="output"></pre>
+    
+    <script>
+        async function test() {
+            const response = await fetch('alle_producten_samengevoegd.csv');
+            const text = await response.text();
+            const lines = text.trim().split('\n');
+            
+            const output = document.getElementById('output');
+            
+            // Show first 3 lines raw
+            output.textContent = 'First 3 lines raw:\n\n';
+            for (let i = 0; i < 3 && i < lines.length; i++) {
+                output.textContent += `Line ${i}: ${lines[i]}\n\n`;
+            }
+            
+            // Parse line 1 (first data line)
+            output.textContent += '\n\n=== Parsing Line 1 ===\n\n';
+            let line = lines[1].trim();
+            output.textContent += `Original: ${line}\n\n`;
+            
+            // Remove outer quotes
+            if (line.startsWith('"')) {
+                let lastQuote = -1;
+                for (let j = line.length - 1; j >= 0; j--) {
+                    if (line[j] === '"') {
+                        lastQuote = j;
+                        break;
+                    }
+                }
+                if (lastQuote > 0) {
+                    line = line.substring(1, lastQuote);
+                }
+            }
+            
+            output.textContent += `After removing outer quotes: ${line}\n\n`;
+            
+            // Parse fields
+            const fields = [];
+            let currentField = '';
+            let insideQuotes = false;
+            
+            for (let j = 0; j < line.length; j++) {
+                const char = line[j];
+                const nextChar = line[j + 1];
+                
+                if (char === '"' && nextChar === '"') {
+                    currentField += '"';
+                    j++;
+                } else if (char === '"') {
+                    insideQuotes = !insideQuotes;
+                } else if (char === ',' && !insideQuotes) {
+                    fields.push(currentField.trim());
+                    currentField = '';
+                } else {
+                    currentField += char;
+                }
+            }
+            fields.push(currentField.trim());
+            
+            output.textContent += `\nParsed fields (${fields.length}):\n`;
+            fields.forEach((f, i) => {
+                output.textContent += `  [${i}]: ${f}\n`;
+            });
+        }
+        
+        test();
+    </script>
+</body>
+</html>
