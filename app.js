@@ -1,4 +1,4 @@
-console.log('=== APP.JS LOADED - VERSION 5.2 ===');
+console.log('=== APP.JS LOADED - VERSION 7.0 - FIXED ===');
 
 let allProducts = [];
 let proteinProducts = [];
@@ -8,21 +8,17 @@ function parseCSV(text) {
     const lines = text.trim().split('\n');
     const products = [];
     
-    // Skip header (line 0), parse data lines
     for (let i = 1; i < lines.length; i++) {
         let line = lines[i].trim();
         if (!line) continue;
         
-        // If line starts with quote, extract the main content
         if (line.startsWith('"')) {
-            // Find the closing quote of the entire record
             const endQuoteIndex = line.lastIndexOf('"');
             if (endQuoteIndex > 0) {
                 line = line.substring(1, endQuoteIndex);
             }
         }
         
-        // Now parse CSV fields, handling double quotes for nested quotes
         const values = [];
         let current = '';
         let inQuotes = false;
@@ -32,7 +28,6 @@ function parseCSV(text) {
             const char = line[j];
             
             if (char === '"' && prevChar === '"') {
-                // Double quote - keep one quote
                 current += char;
                 prevChar = '';
                 continue;
@@ -51,11 +46,10 @@ function parseCSV(text) {
             prevChar = char;
         }
         
-        values.push(current.trim()); // Last field
+        values.push(current.trim());
         
-        // Create product object if we have enough fields
         if (values.length >= 7) {
-            const product = {
+            products.push({
                 'Naam': values[0] || '',
                 'Prijs': values[1] || '',
                 'Aanbieding': values[2] || '-',
@@ -65,23 +59,7 @@ function parseCSV(text) {
                 'Calorieën': values[6] || '',
                 'Link': values[7] || '',
                 'Afbeelding': values[8] || ''
-            };
-            
-            products.push(product);
-            
-            // Debug first product
-            if (products.length === 1) {
-                console.log('=== FIRST PRODUCT PARSED - VERSION 3.0 ===');
-                console.log('Naam:', product.Naam);
-                console.log('Prijs:', product.Prijs);
-                console.log('Aanbieding:', product.Aanbieding);
-                console.log('Eiwit:', product['Eiwit per 100g']);
-                console.log('Koolhydraten:', product['Koolhydraten per 100g']);
-                console.log('Vetten:', product['Vetten per 100g']);
-                console.log('Calorieën:', product['Calorieën']);
-                console.log('Link:', product.Link);
-                console.log('Afbeelding:', product.Afbeelding);
-            }
+            });
         }
     }
 
@@ -122,29 +100,29 @@ function getProductImageUrl(product) {
 }
 
 async function loadCSVData() {
-    console.log('🔄 Loading CSV data...');
+    console.log('🔄 Laden CSV...');
     
     try {
         const response = await fetch('alle_producten_samengevoegd.csv');
         
         if (!response.ok) {
-            throw new Error('CSV file not found - Status: ' + response.status);
+            throw new Error('CSV niet gevonden');
         }
         
+        console.log('✓ CSV geladen');
         const csvText = await response.text();
-        console.log('✅ CSV loaded successfully, size:', csvText.length);
+        console.log(`✓ CSV grootte: ${csvText.length} characters`);
         
         allProducts = parseCSV(csvText);
-        console.log('✅ Parsed', allProducts.length, 'total products');
+        console.log(`✓ Geparsed: ${allProducts.length} producten`);
         
         if (allProducts.length === 0) {
-            alert('ERROR: Geen producten gevonden in CSV!');
+            alert('ERROR: Geen producten gevonden!');
             return;
         }
         
-        console.log('First product:', allProducts[0]);
+        console.log('Eerste product:', allProducts[0]);
         
-        // Split into protein (>=8g) and normal (<8g)
         proteinProducts = allProducts.filter(p => {
             const protein = getProteinValue(p['Eiwit per 100g']);
             return protein >= 8;
@@ -155,50 +133,41 @@ async function loadCSVData() {
             return protein < 8 && protein > 0;
         });
         
-        console.log('✅ Protein products (>=8g):', proteinProducts.length);
-        console.log('✅ Normal products (<8g):', normalProducts.length);
+        console.log(`✓ Proteïne producten: ${proteinProducts.length}`);
+        console.log(`✓ Normale producten: ${normalProducts.length}`);
         
-        // NOW add to dropdowns
         const sel1 = document.getElementById('protein-select');
         const sel2 = document.getElementById('normal-select');
         
         if (!sel1 || !sel2) {
-            console.error('❌ ERROR: Dropdowns niet gevonden!');
-            alert('ERROR: Dropdowns niet gevonden! sel1=' + sel1 + ', sel2=' + sel2);
+            console.error('❌ Dropdowns niet gevonden!');
+            alert('ERROR: Dropdowns niet gevonden!');
             return;
         }
         
-        console.log('✅ Dropdowns found, sel1 has', sel1.options.length, 'options');
-        console.log('Adding protein products...');
+        console.log('✓ Dropdowns gevonden, producten toevoegen...');
         
-        let addedCount = 0;
         proteinProducts.forEach((p, i) => {
             const opt = document.createElement('option');
             opt.value = i;
-            const productName = p.Naam || 'Onbekend product';
+            const productName = p.Naam || 'Onbekend';
             opt.textContent = productName.length > 60 ? productName.substring(0, 60) + '...' : productName;
             sel1.appendChild(opt);
-            addedCount++;
-            if (i < 3) console.log(`  ${i}: ${productName}`);
         });
-        console.log(`✅ Added ${addedCount} protein products, sel1 now has`, sel1.options.length, 'options');
         
-        addedCount = 0;
         normalProducts.forEach((p, i) => {
             const opt = document.createElement('option');
             opt.value = i;
-            const productName = p.Naam || 'Onbekend product';
+            const productName = p.Naam || 'Onbekend';
             opt.textContent = productName.length > 60 ? productName.substring(0, 60) + '...' : productName;
             sel2.appendChild(opt);
-            addedCount++;
-            if (i < 3) console.log(`  ${i}: ${productName}`);
         });
-        console.log(`✅ Added ${addedCount} normal products, sel2 now has`, sel2.options.length, 'options');
         
-        console.log('✅ ALL DONE!');
+        console.log(`✓ KLAAR! ${proteinProducts.length} proteïne + ${normalProducts.length} normale producten toegevoegd`);
+        
     } catch (e) {
         console.error('❌ ERROR:', e);
-        alert('ERROR bij laden CSV: ' + e.message + '\n\nCheck console voor details.');
+        alert('ERROR: ' + e.message);
     }
 }
 
@@ -321,6 +290,7 @@ function filterProducts() {
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('✅ DOM ready - starting initialization');
+    alert('DOM ready! App.js wordt geladen...');
     
     const proteinSelect = document.getElementById('protein-select');
     const normalSelect = document.getElementById('normal-select');
@@ -336,6 +306,8 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('ERROR: Dropdowns niet gevonden in DOM!');
         return;
     }
+    
+    alert('Dropdowns gevonden! Nu CSV laden...');
     
     console.log('Adding event listeners...');
     proteinSelect.addEventListener('change', compareProducts);
