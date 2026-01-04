@@ -40,60 +40,52 @@
     <div class="app h-full overflow-y-auto pb-24">
       <!-- Header -->
       <header
-  class="sticky top-0 z-20 flex items-center gap-3 bg-white px-4 py-3 shadow-sm border-b border-slate-200 mb-4"
->
-  <button
-    onclick="history.back()"
-    class="flex h-10 w-10 items-center justify-center rounded-full text-slate-600 hover:bg-slate-100 transition-colors"
-  >
-    <span class="material-symbols-outlined text-[24px]">
-      arrow_back
-    </span>
-  </button>
+        class="sticky top-0 z-20 flex items-center gap-3 bg-white px-4 py-3 shadow-sm border-b border-slate-200 mb-4"
+      >
+        <button
+          onclick="history.back()"
+          class="flex h-10 w-10 items-center justify-center rounded-full text-slate-600 hover:bg-slate-100 transition-colors"
+        >
+          <span class="material-symbols-outlined text-[24px]">
+            arrow_back
+          </span>
+        </button>
 
-  <h1 class="text-xl font-bold tracking-tight text-slate-900">
-    Account
-  </h1>
-</header>
+        <h1 class="text-xl font-bold tracking-tight text-slate-900">Account</h1>
+      </header>
 
-      <div class="w-full max-w-sm mx-auto px-6 space-y-8">
+      <div class="w-full px-4 space-y-8">
         <!-- PROFIEL -->
         <section>
-  <div
-    class="flex items-center gap-4 rounded-2xl bg-white p-4 shadow-sm border border-slate-100"
-  >
-    <!-- Avatar -->
-    <div
-      class="relative h-16 w-16 flex-shrink-0 rounded-full bg-primary/20
-             flex items-center justify-center border-2 border-primary"
-    >
-      <span class="text-xl font-extrabold text-[#2D4559]">RJ</span>
-      <div
-        class="absolute bottom-0 right-0 h-4 w-4 rounded-full bg-primary
-               border-2 border-white"
-      ></div>
-    </div>
+          <div
+            class="flex items-center gap-4 rounded-2xl bg-white p-4 shadow-sm border border-slate-100"
+          >
+            <!-- Avatar -->
+            <div
+              class="relative h-16 w-16 flex-shrink-0 rounded-full bg-primary/20 flex items-center justify-center border-2 border-primary"
+            >
+              <span class="text-xl font-extrabold text-[#2D4559]">RJ</span>
+              <div
+                class="absolute bottom-0 right-0 h-4 w-4 rounded-full bg-primary border-2 border-white"
+              ></div>
+            </div>
 
-    <!-- Naam + mail -->
-    <div class="flex-1 min-w-0">
-      <h2 class="text-lg font-bold text-slate-900 truncate">
-        Rosanne de Jong
-      </h2>
-      <p class="text-sm text-slate-500 truncate">
-        rosanne@email.nl
-      </p>
-    </div>
+            <!-- Naam + mail -->
+            <div class="flex-1 min-w-0">
+              <h2 class="text-lg font-bold text-slate-900 truncate">
+                Rosanne de Jong
+              </h2>
+              <p class="text-sm text-slate-500 truncate">rosanne@email.nl</p>
+            </div>
 
-    <!-- Edit knop (optioneel, maar sterk) -->
-    <button
-      class="flex h-9 w-9 items-center justify-center rounded-full
-             border border-slate-200 text-slate-500
-             hover:text-primary hover:border-primary transition-colors"
-    >
-      <span class="material-symbols-outlined text-[20px]">edit</span>
-    </button>
-  </div>
-</section>
+            <!-- Edit knop (optioneel, maar sterk) -->
+            <button
+              class="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 hover:text-primary hover:border-primary transition-colors"
+            >
+              <span class="material-symbols-outlined text-[20px]">edit</span>
+            </button>
+          </div>
+        </section>
 
         <!-- FAVORIETEN -->
         <section>
@@ -102,41 +94,14 @@
           >
             Favorieten
           </h3>
-
           <div
+            id="favoritesContainer"
             class="flex gap-4 overflow-x-auto overflow-y-hidden pb-2 w-full"
             style="scrollbar-width: none"
           >
-            <!-- Card 1 -->
-            <div
-              class="min-w-[140px] flex-shrink-0 bg-[#32485C] rounded-xl overflow-hidden cursor-pointer"
-            >
-              <div class="h-28 bg-white flex items-center justify-center">
-                <img
-                  src="https://static.ah.nl/dam/product/AHI_63706d56526f52645131754d57457a7171456e5a5477?fileType=binary"
-                  class="w-full h-full object-contain"
-                />
-              </div>
-              <div class="px-3 py-2 bg-[#2D4559]/85">
-                <div class="text-xs font-medium leading-tight">
-                  Campina Halfvolle yoghurt
-                </div>
-                <div class="text-[11px] opacity-70">€1,89</div>
-              </div>
-            </div>
-
-            <!-- Card 2 (kopieerbaar) -->
-            <div
-              class="min-w-[140px] flex-shrink-0 bg-[#32485C] rounded-xl overflow-hidden cursor-pointer"
-            ></div>
-            <div
-              class="min-w-[140px] flex-shrink-0 bg-[#32485C] rounded-xl overflow-hidden cursor-pointer"
-            ></div>
+            <!-- JS vult dit -->
           </div>
 
-          <p class="text-xs opacity-60 mt-2">
-            Je favoriete producten om snel te vergelijken
-          </p>
         </section>
 
         <!-- BONUSKAART -->
@@ -189,12 +154,18 @@
               </h3>
 
               <!-- Samenvatting -->
-              <div class="rounded-2xl bg-white text-slate-900 p-4 shadow-sm border border-slate-100>
+              <div
+                class="rounded-2xl bg-white text-slate-900 p-4 shadow-sm border border-slate-100 gap-4"
+              >
                 <div class="flex flex-wrap gap-2 text-xs">
-                  <span class="bg-[#2D4559] px-2 py-1 rounded-full">
+                  <span
+                    class="px-3 py-1 rounded-full text-xs font-medium border border-primary/40 bg-primary/10 text-primary backdrop-blur-sm"
+                  >
                     Meer eiwitten
                   </span>
-                  <span class="bg-[#2D4559] px-2 py-1 rounded-full">
+                  <span
+                    class="px-3 py-1 rounded-full text-xs font-medium border border-primary/40 bg-primary/10 text-primary backdrop-blur-sm"
+                  >
                     Gezonder kiezen
                   </span>
                 </div>
@@ -203,55 +174,65 @@
               <!-- Toggle -->
               <button
                 id="toggleGoals"
-                class="mt-3 text-sm text-yellow-400 font-medium"
+                class="mt-3 ml-2 text-sm text-yellow-400 font-medium"
               >
                 Doelen aanpassen
               </button>
 
               <!-- Editable doelen -->
-              <div id="goalsEditor" class="hidden mt-4 space-y-3">
-                <label
-                  class="block bg-[#32485C] rounded-xl px-4 py-3 cursor-pointer"
-                >
-                  <input type="checkbox" class="hidden peer" checked />
-                  <div class="peer-checked:text-yellow-400 font-medium">
-                    Meer eiwitten eten
+              <div id="goalsEditor" class="hidden mt-4 space-y-4">
+                <!-- Doel -->
+                <label class="block cursor-pointer">
+                  <input type="checkbox" class="peer hidden" checked />
+
+                  <div
+                    class="rounded-xl px-4 py-3 transition-all active:scale-[0.98] /* DEFAULT (niet geselecteerd) */ bg-[#32485C] text-white border border-transparent /* GESELECTEERD */ peer-checked:bg-white peer-checked:text-primary peer-checked:border-primary"
+                  >
+                    <div class="font-medium">Meer eiwitten eten</div>
+                    <p class="text-xs opacity-70">
+                      Focus op eiwitrijke producten
+                    </p>
                   </div>
-                  <p class="text-xs opacity-70">
-                    Focus op eiwitrijke producten
-                  </p>
                 </label>
 
-                <label
-                  class="block bg-[#32485C] rounded-xl px-4 py-3 cursor-pointer"
-                >
-                  <input type="checkbox" class="hidden peer" />
-                  <div class="peer-checked:text-yellow-400 font-medium">
-                    Goedkoper boodschappen doen
+                <!-- Doel -->
+                <label class="block cursor-pointer">
+                  <input type="checkbox" class="peer hidden" />
+
+                  <div
+                    class="rounded-xl px-4 py-3 transition-all active:scale-[0.98] bg-[#32485C] text-white border border-transparent peer-checked:bg-white peer-checked:text-primary peer-checked:border-primary"
+                  >
+                    <div class="font-medium">Goedkoper boodschappen doen</div>
+                    <p class="text-xs opacity-70">Inzicht in eiwit per euro</p>
                   </div>
-                  <p class="text-xs opacity-70">Inzicht in eiwit per euro</p>
                 </label>
 
-                <label
-                  class="block bg-[#32485C] rounded-xl px-4 py-3 cursor-pointer"
-                >
-                  <input type="checkbox" class="hidden peer" checked />
-                  <div class="peer-checked:text-yellow-400 font-medium">
-                    Gezonder kiezen
+                <!-- Doel -->
+                <label class="block cursor-pointer">
+                  <input type="checkbox" class="peer hidden" checked />
+
+                  <div
+                    class="rounded-xl px-4 py-3 transition-all active:scale-[0.98] bg-[#32485C] text-white border border-transparent peer-checked:bg-white peer-checked:text-primary peer-checked:border-primary"
+                  >
+                    <div class="font-medium">Gezonder kiezen</div>
+                    <p class="text-xs opacity-70">
+                      Bewuster kiezen met voedingsdata
+                    </p>
                   </div>
-                  <p class="text-xs opacity-70">
-                    Bewuster kiezen met voedingsdata
-                  </p>
                 </label>
 
-                <label
-                  class="block bg-[#32485C] rounded-xl px-4 py-3 cursor-pointer"
-                >
-                  <input type="checkbox" class="hidden peer" />
-                  <div class="peer-checked:text-yellow-400 font-medium">
-                    Leren over voeding
+                <!-- Doel -->
+                <label class="block cursor-pointer">
+                  <input type="checkbox" class="peer hidden" />
+
+                  <div
+                    class="rounded-xl px-4 py-3 transition-all active:scale-[0.98] bg-[#32485C] text-white border border-transparent peer-checked:bg-white peer-checked:text-primary peer-checked:border-primary"
+                  >
+                    <div class="font-medium">Leren over voeding</div>
+                    <p class="text-xs opacity-70">
+                      Inzicht in labels en claims
+                    </p>
                   </div>
-                  <p class="text-xs opacity-70">Inzicht in labels en claims</p>
                 </label>
               </div>
             </section>
@@ -261,8 +242,9 @@
         <!-- UITLOGGEN -->
         <section class="pt-6">
           <button
-            class="w-full border border-red-400 text-red-400 rounded-xl py-3 font-semibold"
+            class="w-full rounded-2xl bg-white border border-slate-200 p-4 flex items-center justify-center gap-2 text-red-600 font-bold hover:bg-red-50 transition-colors shadow-sm"
           >
+            <span class="material-symbols-outlined text-[20px]">logout</span>
             Uitloggen
           </button>
         </section>
@@ -325,15 +307,119 @@
     />
 
     <script>
-      const toggle = document.getElementById("toggleGoals");
-      const editor = document.getElementById("goalsEditor");
+            const toggle = document.getElementById("toggleGoals");
+            const editor = document.getElementById("goalsEditor");
 
-      toggle.addEventListener("click", () => {
-        editor.classList.toggle("hidden");
-        toggle.textContent = editor.classList.contains("hidden")
-          ? "Doelen aanpassen"
-          : "Klaar";
-      });
+            toggle.addEventListener("click", () => {
+              editor.classList.toggle("hidden");
+              toggle.textContent = editor.classList.contains("hidden")
+                ? "Doelen aanpassen"
+                : "Klaar";
+            });
+            const CSV_URL = "alle_producten_samengevoegd.csv";
+
+            /* =========================
+         CSV INLADEN
+      ========================= */
+            async function loadCSV() {
+              const res = await fetch(CSV_URL);
+              const text = await res.text();
+              return parseCSV(text);
+            }
+
+            /* =========================
+         CSV PARSER (AH-focus)
+      ========================= */
+            function parseCSV(text) {
+              const lines = text.trim().split("\n");
+              const products = [];
+
+              const clean = (v) =>
+                v
+                  ? v
+                      .replace(/^"+|"+$/g, "")
+                      .replace(/""/g, '"')
+                      .trim()
+                  : "";
+
+              for (let i = 1; i < lines.length; i++) {
+                const row = lines[i];
+
+                const values = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+
+                const imageValue =
+                  values.find(
+                    (v) => v.includes("static.ah.nl") && v.includes("fileType=binary")
+                  ) || "";
+
+                const name = clean(values[0]);
+
+                // 👉 ALLEEN AH-producten toelaten
+                if (!imageValue) continue;
+
+                products.push({
+                  name:clean(values[0] || "")
+  // verwijder alles na een komma (prijs rommel)
+  .split(",")[0]
+  // verwijder losse aanhalingstekens
+  .replace(/"+/g, "")
+  .trim(),
+                  image: clean(imageValue),
+                });
+              }
+
+              return products;
+            }
+
+            /* =========================
+         RANDOM SELECTIE
+      ========================= */
+            function getRandomProducts(products, amount = 3) {
+              return [...products].sort(() => 0.5 - Math.random()).slice(0, amount);
+            }
+
+            /* =========================
+         RENDER FAVORIETEN
+      ========================= */
+            function renderFavorites(products) {
+              const container = document.querySelector(
+                ".overflow-x-auto.overflow-y-hidden"
+              );
+
+              container.innerHTML = "";
+
+              products.forEach((p) => {
+                container.innerHTML += `
+            <div class="min-w-[140px] flex-shrink-0 bg-[#32485C] rounded-xl overflow-hidden cursor-pointer">
+
+              <!-- Afbeelding -->
+              <div class="h-28 bg-white flex items-center justify-center">
+                <img
+                  src="${p.image}"
+                  class="w-full h-full object-contain"
+                  onerror="this.style.display='none'"
+                />
+              </div>
+
+              <!-- Titel -->
+              <div class="px-3 py-2">
+                <div class="text-xs font-medium leading-tight line-clamp-2">
+                  ${p.name}
+                </div>
+              </div>
+            </div>
+          `;
+              });
+            }
+
+            /* =========================
+         INIT
+      ========================= */
+            window.addEventListener("DOMContentLoaded", async () => {
+              const products = await loadCSV();
+              const favorites = getRandomProducts(products, 3);
+              renderFavorites(favorites);
+            });
     </script>
   </body>
 </html>
