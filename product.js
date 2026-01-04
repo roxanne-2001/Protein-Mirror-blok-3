@@ -1,61 +1,114 @@
-/* =========================
-   CHECK: DETAILPAGINA
-========================= */
-const isDetailPage = document.getElementById("productName") !== null;
-if (!isDetailPage) return;
 
-/* =========================
-   CONFIG
-========================= */
-const CSV_URL = "ah_normale_producten(in).csv";
+/**********************************************************
+ * CONFIG
+ **********************************************************/
+const CSV_URL = "alle_producten_samengevoegd.csv";
 
-/* =========================
-   FALLBACK PRODUCT
-========================= */
-const defaultProduct = {
-  Naam: "Onbekend product",
-  Prijs: "-",
-  "Eiwit per 100g": "-",
-  "Koolhydraten per 100g": "-",
-  "Vetten per 100g": "-",
-  Calorieën: "-",
-  Link: "",
-  Afbeelding: "",
-  MAS_score: "0",
-  PQI_estimate: "0",
-  PPG_eur_per_protein_g: "0"
-};
-
-/* =========================
-   CSV LADEN
-========================= */
-async function loadCSV() {
-  try {
-    const res = await fetch(CSV_URL);
-    if (!res.ok) throw new Error("CSV niet gevonden");
-    const text = await res.text();
-    return parseCSV(text);
-  } catch (e) {
-    console.warn("CSV laden mislukt, fallback gebruikt");
-    return [defaultProduct];
-  }
+/**********************************************************
+ * HELPERS
+ **********************************************************/
+function clean(value) {
+  if (!value) return "";
+  return value.replace(/^"+|"+$/g, "").replace(/""/g, '"').trim();
 }
 
-/* =========================
-   CSV PARSER (zelfde als zoekpagina)
-========================= */
+function getProductId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("id");
+}
+
+//helper
+
+function cleanProductName(rawName) {
+  if (!rawName) return "Onbekend product";
+
+  let name = rawName
+    .replace(/"/g, "")          // alle quotes weg
+    .replace(/\s*,\s*/g, " ")   // ALLE losse komma’s vervangen door spatie
+    .replace(/\s+/g, " ")       // dubbele spaties opruimen
+    .trim();
+
+  // Extra veiligheid: prijs eruit slopen als die er toch in zit
+  if (name.includes("€")) {
+    name = name.split("€")[0].trim();
+  }
+
+  return name;
+}
+
+// helper om naam en prijs te extraheren uit rommelige naamvelden
+function extractNameAndPrice(rawName) {
+  if (!rawName) {
+    return { name: "-", price: "" };
+  }
+
+  let cleaned = rawName.replace(/"/g, "").trim();
+
+  // match €1,89 of €2.49 etc
+  const priceMatch = cleaned.match(/€\s?\d+[.,]\d{2}/);
+
+  let price = "";
+  if (priceMatch) {
+    price = priceMatch[0];
+    cleaned = cleaned.replace(priceMatch[0], "");
+  }
+
+  // opschonen van rest-rotzooi
+  cleaned = cleaned
+    .replace(/,+$/g, "")
+    .trim();
+
+  return {
+    name: cleaned,
+    price,
+  };
+}
+
+//helper voor het extraheren van numerieke waarden
+function extractValue(value) {
+  if (!value) return "-";
+  const match = value.match(/([\d.,]+)/);
+  return match ? match[1].replace(",", ".") : "-";
+}
+
+//helper voor het combineren van numerieke waarden met eenheid
+function combineValue(tokens, unit) {
+  for (let i = 0; i < tokens.length - 1; i++) {
+    if (
+      tokens[i].match(/^\d+(\.\d+)?$/) &&
+      tokens[i + 1] === unit
+    ) {
+      return tokens[i] + " " + unit;
+    }
+  }
+
+  return "-";
+}
+
+function extractWithRegex(row, regex) {
+  const match = row.match(regex);
+  return match ? match[1] : "-";
+}
+
+function extractGrams(row) {
+  return [...row.matchAll(/(\d+(\.\d+)?)\s*g/g)].map(m => m[1]);
+}
+
+/**********************************************************
+ * CSV PARSER (zelfde logica als zoekpagina)
+ **********************************************************/
 function parseCSV(text) {
   const lines = text.trim().split("\n");
   const products = [];
 
-  const clean = (v) =>
-    v?.replace(/^"+|"+$/g, "").replace(/""/g, '"').trim() || "";
-
   for (let i = 1; i < lines.length; i++) {
     const row = lines[i];
+
+    // split op komma’s buiten quotes
     const values =
       row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
 
+    // afbeelding zoeken (AH)
     const imageValue =
       values.find(
         (v) =>
@@ -63,70 +116,84 @@ function parseCSV(text) {
           v.includes("fileType=binary")
       ) || "";
 
+      const grams = extractGrams(row);
+      const protein = grams[0] || "-";
+      const carbs   = grams[1] || "-";
+      const fat     = grams[2] || "-";
+      const kcal    = extractWithRegex(row, /(\d+(\.\d+)?)\s*kcal/);
+
     products.push({
-      Naam: clean(values[0]),
-      Prijs: clean(values[1]),
-      "Eiwit per 100g": clean(values[3]),
-      "Koolhydraten per 100g": clean(values[4]),
-      "Vetten per 100g": clean(values[5]),
-      Calorieën: clean(values[6]),
-      Link: clean(values[7]),
+        id: i,
+      Naam: clean(values[0] || "")
+        .replace(/,+$/, "")
+        .replace(/"+$/, ""),
+      Prijs: clean(values[1] || ""),
+        Aanbieding: clean(values[2] || ""),
+  "Eiwit per 100g": protein !== "-" ? protein + " g" : "-",
+  "Koolhydraten per 100g": carbs !== "-" ? carbs + " g" : "-",
+  "Vetten per 100g": fat !== "-" ? fat + " g" : "-",
+  Calorieën: kcal !== "-" ? kcal + " kcal" : "-",
+      Link: clean(values[7] || ""),
       Afbeelding: clean(imageValue),
-      MAS_score: clean(values[8]),
-      PQI_estimate: clean(values[9]),
-      PPG_eur_per_protein_g: clean(values[10])
     });
   }
 
   return products;
 }
 
-/* =========================
-   URL ID
-========================= */
-function getProductId() {
-  return new URLSearchParams(window.location.search).get("id");
+/**********************************************************
+ * DATA LOAD
+ **********************************************************/
+async function loadProducts() {
+  const response = await fetch(CSV_URL);
+  if (!response.ok) throw new Error("CSV niet gevonden");
+  const text = await response.text();
+  return parseCSV(text);
 }
 
-/* =========================
-   SCORES
-========================= */
-function interpretScores(product) {
-  const mas = parseFloat(product.MAS_score);
-  document.getElementById("masLabel").textContent =
-    mas >= 1 ? "JA" : mas >= 0.5 ? "Gedeeltelijk" : "NEE";
-
-  const pqi = parseFloat(product.PQI_estimate);
-  document.getElementById("pqiLabel").textContent =
-    pqi >= 0.8 ? "Hoog" : pqi >= 0.5 ? "Gemiddeld" : "Laag";
-
-  const ppg = parseFloat(product.PPG_eur_per_protein_g);
-  document.getElementById("ppgValue").textContent =
-    isNaN(ppg) ? "-" : "€" + ppg.toFixed(3) + "/g";
-
-  document.getElementById("ppgLabel").textContent =
-    ppg < 0.06 ? "Goedkoop" : ppg < 0.09 ? "Gemiddeld" : "Duur";
-}
-
-/* =========================
-   RENDER PRODUCT
-========================= */
+/**********************************************************
+ * RENDER PRODUCT
+ **********************************************************/
 function renderProduct(product) {
-  const clean = (v) => (v ? v.replace(/"/g, "").trim() : "-");
+    console.table(product);
+  const { name, price } = extractNameAndPrice(product.Naam);
 
-  /* NAAM */
-  document.getElementById("productName").textContent =
-    clean(product.Naam);
+  /* =========================
+     TITELS
+  ========================= */
 
-  /* PRIJS — ENIGE KEER */
+  // Titel onder afbeelding
+  document.getElementById("productName").textContent = name;
+
+  // Header titel
+  const headerTitle = document.querySelector("header span.font-bold");
+  if (headerTitle) {
+    headerTitle.textContent = name;
+  }
+
+  /* =========================
+     PRIJS OVERLAY
+  ========================= */
+
   const priceEl = document.getElementById("productPrice");
-  priceEl.textContent = clean(product.Prijs) || "-";
+  if (priceEl) {
+    if (price) {
+      priceEl.textContent = price;
+      priceEl.style.display = "block";
+    } else {
+      priceEl.style.display = "none";
+    }
+  }
 
-  /* AFBEELDING */
+  /* =========================
+     AFBEELDING
+  ========================= */
+
   const img = document.getElementById("productImage");
   const wrapper = document.getElementById("productImageWrapper");
 
-  let image = product.Afbeelding;
+  let image = product.Afbeelding || "";
+
   if (image.includes("fileType=binary")) {
     image = image.substring(
       0,
@@ -140,46 +207,76 @@ function renderProduct(product) {
   } else {
     img.style.display = "none";
     wrapper.innerHTML =
-      `<span class="text-xs text-slate-400">Geen afbeelding</span>`;
+      '<span class="text-xs text-slate-400">Geen afbeelding</span>';
   }
 
-  /* VOEDING */
-  document.getElementById("kcal").textContent = clean(product.Calorieën);
-  document.getElementById("protein").textContent = clean(product["Eiwit per 100g"]);
-  document.getElementById("carbs").textContent = clean(product["Koolhydraten per 100g"]);
-  document.getElementById("fat").textContent = clean(product["Vetten per 100g"]);
+  /* =========================
+     VOEDINGSWAARDES
+  ========================= */
 
-  /* SCORES */
-  interpretScores(product);
+  document.getElementById("kcal").textContent =
+    product["Calorieën"] || "-";
+  document.getElementById("protein").textContent =
+    product["Eiwit per 100g"] || "-";
+  document.getElementById("carbs").textContent =
+    product["Koolhydraten per 100g"] || "-";
+  document.getElementById("fat").textContent =
+    product["Vetten per 100g"] || "-";
 
-  /* LINK */
-  const btn = document.getElementById("visitButton");
-  if (btn && product.Link) {
-    btn.onclick = () => window.open(product.Link, "_blank");
+  /* =========================
+     WINKEL
+  ========================= */
+
+  document.getElementById("store").textContent =
+    name.toLowerCase().includes("ah")
+      ? "Albert Heijn"
+      : "Onbekend";
+
+  /* =========================
+     CTA
+  ========================= */
+
+  if (product.Link) {
+    document.getElementById("visitButton").onclick = () =>
+      window.open(product.Link, "_blank");
   }
 }
 
-/* =========================
-   INIT
-========================= */
-window.addEventListener("DOMContentLoaded", async () => {
-  const id = decodeURIComponent(getProductId() || "");
-  const products = await loadCSV();
-
-  const product =
-    products.find(
-      (p) => p.Naam.toLowerCase() === id.toLowerCase()
-    ) || products[0] || defaultProduct;
-
-  renderProduct(product);
-});
-
-/* =========================
-   DROPDOWNS
-========================= */
+/**********************************************************
+ * DROPDOWNS
+ **********************************************************/
 function toggleDropdown(i) {
-  const buttons = document.querySelectorAll(".dropdown-toggle");
   const content = document.getElementById(`nutrition-dropdown-${i}`);
-  buttons[i].classList.toggle("open");
   content.classList.toggle("open");
 }
+
+/**********************************************************
+ * INIT (GEEN ILLEGAL RETURN!)
+ **********************************************************/
+window.addEventListener("DOMContentLoaded", async () => {
+  // check of dit echt de product-detail pagina is
+  if (!document.getElementById("productName")) return;
+
+  try {
+    const products = await loadProducts();
+    const rawId = getProductId(); // string uit URL
+const id = decodeURIComponent(rawId).toLowerCase();
+
+    let product =
+      products.find(
+        (p) =>
+          encodeURIComponent(p.Naam) === id ||
+          p.Naam === decodeURIComponent(id)
+      ) || products[0];
+
+    if (!product) {
+      alert("Product niet gevonden");
+      return;
+    }
+
+    renderProduct(product);
+  } catch (err) {
+    console.error(err);
+    alert("Fout bij laden van product");
+  }
+});

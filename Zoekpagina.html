@@ -274,11 +274,11 @@
          3. HTML OUTPUT
          ========================= */
 
-           return `
+          return `
   <div
     class="relative rounded-2xl overflow-hidden cursor-pointer bg-surface-light dark:bg-surface-dark
            border border-slate-200 dark:border-slate-800"
-    onclick="selectProduct('${encodeURIComponent(name)}')"
+   onclick="selectProduct(${p.id})"
   >
 
     <!-- Afbeelding -->
@@ -296,19 +296,14 @@
     </div>
 
     <!-- Overlay onder -->
-   <div
-  class="absolute bottom-0 left-0 right-0
-         h-16 bg-[#2D4559]/85 backdrop-blur-sm
-         px-3 py-2 flex flex-col justify-center"
->
-      <div class="text-sm font-semibold text-white leading-tight">
+    <div
+      class="absolute bottom-0 left-0 right-0
+             h-16 bg-[#2D4559]/85 backdrop-blur-sm
+             px-3 py-2 flex items-center"
+    >
+      <div class="text-sm font-semibold text-white leading-tight line-clamp-2">
         ${name}
       </div>
-      ${
-        price
-          ? `<div class="text-xs text-slate-200 mt-0.5">${price}</div>`
-          : ""
-      }
     </div>
 
   </div>
@@ -317,9 +312,9 @@
           .join("");
       }
       // Select product
-      function selectProduct(encodedName) {
-        window.location.href = `Product_detail.html?id=${encodedName}`;
-      }
+     function selectProduct(id) {
+  window.location.href = `Product_detail.html?id=${id}`;
+}
 
       // Search
       document.getElementById("searchInput").addEventListener("input", (e) => {
